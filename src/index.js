@@ -1,7 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import ReactBootstrap from 'react-bootstrap'
+import {TopNavbar} from './component/navbar/TopNavbar'
 
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 class Clock extends React.Component{
     constructor(props){
@@ -63,6 +64,8 @@ class Index extends React.Component{
     }
 }
 
-ReactDOM.render(<Clock />, document.getElementById('root'));
+// ReactDOM.render(<Clock />, document.getElementById('root'));
 
-ReactDOM.render(<Index />, document.getElementById('root'));
+// ReactDOM.render(<Index />, document.getElementById('root'));
+
+ReactDOM.render(<TopNavbar />, document.getElementById('root'));
