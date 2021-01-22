@@ -16,7 +16,7 @@ import { Form, Button } from 'react-bootstrap'
     
     | NavigationBar     |    no    |     no    |
 */
-export default class LoginForm extends Component {
+export class LoginForm extends Component {
     render() {
         return (
             <Form id="LoginForm">

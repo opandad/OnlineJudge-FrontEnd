@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import {TopNavbar} from './component/navbar/TopNavbar'
+import {LoginForm} from './component/form/LoginForm'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 
@@ -35,37 +36,15 @@ class Clock extends React.Component{
 }
 
 class Index extends React.Component{
-    constructor(props){
-        super(props);
-        this.state = {date:new Date()};
-    }
-
-    componentDidMount(){
-        this.timerID = setInterval(()=>this.tick(), 1000);
-    }
-    
-    componentDidUnMount(){
-        clearInterval(this.timerID);
-    }
-
-    tick(){
-        this.setState({
-            date: new Date()
-        });
-    }
-
     render(){
         return(
             <div>
-                <h1>这是一个主页222。</h1>
-                <h2>{this.state.date.toLocaleTimeString()}</h2>
+                <TopNavbar />
+                <Clock />
+                <LoginForm />
             </div>
         );
     }
 }
 
-// ReactDOM.render(<Clock />, document.getElementById('root'));
-
-// ReactDOM.render(<Index />, document.getElementById('root'));
-
-ReactDOM.render(<TopNavbar />, document.getElementById('root'));
+ReactDOM.render(<Index />, document.getElementById('root'));
