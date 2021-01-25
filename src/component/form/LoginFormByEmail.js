@@ -68,20 +68,21 @@ export default class LoginFormByEmail extends Component {
     loginByEmail(event) {
         console.log("email: " + this.state.email + "  password: " + this.state.password);
         console.log(SHA1(this.state.password).toString());
-        return (
-            alert("？？？？")
-        );
+        
+        //TODO
     }
 
-    loginEmailChange(event){
+    loginEmailChange(event) {
         this.setState({
             email: event.target.value
         });
     }
 
-    loginPasswordChange(event){
+    loginPasswordChange(event) {
         this.setState({
             password: event.target.value
         });
     }
+
+
 }
