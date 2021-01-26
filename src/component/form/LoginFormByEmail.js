@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Form, Button, Container, Col, Row } from 'react-bootstrap'
-import '../../configs/Route'
 import { SHA1 } from 'crypto-js'
 
 /*
@@ -69,7 +68,24 @@ export default class LoginFormByEmail extends Component {
         console.log("email: " + this.state.email + "  password: " + this.state.password);
         console.log(SHA1(this.state.password).toString());
         
+        var url = require('../../configs/Route');
+        var data = {
+            email: this.state.email,
+            password: SHA1(this.state.password).toString()
+        }
+
         //TODO
+        fetch(url.REAREND_ROUTE['LoginByEmail'], {
+            method:'GET',
+            body: JSON.stringify(data),
+            headers: new Headers({
+                'Content-Type': 'application/json'
+            })
+        }).then(res => res.json())
+        .catch(error => console.error('Error:', error))
+        .then(response => console.log('Success:', response));
+
+        return alert("???");
     }
 
     loginEmailChange(event) {

@@ -14,7 +14,7 @@ export const FRONTEND_ROUTE = {
 }
 
 //rear end
-export const REAREND_HOSTNAME = "http://192.168.121.131:3000"
+export const REAREND_HOSTNAME = "http://127.0.0.1:8080"
 export const REAREND_ROUTE = {
     Home: REAREND_HOSTNAME + "/",
 
