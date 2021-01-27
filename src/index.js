@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import {TopNavbar} from './component/navbar/TopNavbar'
 import {Footer} from './component/Footer'
+import './utils/Websocket'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 
