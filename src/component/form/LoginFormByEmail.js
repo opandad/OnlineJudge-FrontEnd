@@ -66,13 +66,13 @@ export default class LoginFormByEmail extends Component {
 
     loginByEmail(event) {
         event.preventDefault();
-        console.log("email: " + this.state.email + "  password: " + this.state.password);
-        console.log(SHA1(this.state.password).toString());
+        // console.log("email: " + this.state.email + "  password: " + this.state.password);
+        // console.log(SHA1(this.state.password).toString());
 
         //TODO
         var loginInfo = {
             "account":this.state.email,
-            "password": SHA1(this.state.password).toString(),
+            "password": this.state.password,//SHA1(this.state.password).toString(),
             "loginByWhat": "email",
             "msg":"login",
         }
@@ -91,6 +91,4 @@ export default class LoginFormByEmail extends Component {
             password: event.target.value
         });
     }
-
-
 }
