@@ -37,5 +37,4 @@ ws.onclose = (e) => {
     var expires = new Date(new Date() + 24*60*60*1000);
     // document.cookie = "userID="+stringify(websocketData["userID"]);
     // Cookies.set('userInfo', websocketData["userID"], {expires: expires});
-    alert("cookie save!");
 };

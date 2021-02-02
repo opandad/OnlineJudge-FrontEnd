@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Form, Button, Container, Col, Row } from 'react-bootstrap'
 import { SHA1 } from 'crypto-js'
 import {ws} from '../../utils/Websocket'
 

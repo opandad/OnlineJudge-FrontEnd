@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { ModalFooter, Container } from 'react-bootstrap'
 
 export class Footer extends Component {
     render() {
