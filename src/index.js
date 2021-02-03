@@ -5,19 +5,47 @@ import './utils/Websocket'
 import TopNavbar from './component/navbar/TopNavbar';
 import Footer from './component/Footer'
 import { Layout } from 'antd';
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
+
+import Home from './page/Home'
+import Login from './page/Login'
 
 import 'antd/dist/antd.less';
-import { Login } from './page/Login';
 
 class Index extends React.Component {
     render() {
         return (
-            <Layout>
-                <TopNavbar />
-                <Layout.Content style={{ padding: '0 50px' }}>contain
-                </Layout.Content>
-                <Footer />
-            </Layout>
+            <BrowserRouter>
+                <Layout>
+                    <TopNavbar />
+                    <Layout.Content>
+                        <div>
+                        <Switch>
+                            <Route path="/home">
+                                <Home />
+                            </Route>
+                            <Route path="/problems">
+
+                            </Route>
+                            <Route path="/contests">
+
+                            </Route>
+                            <Route path="/submit_status">
+
+                            </Route>
+                            <Route path="/login">
+                                <Login />
+                            </Route>
+                            <Route path="/regist">
+
+                            </Route>
+                        </Switch>
+                        </div>
+                    </Layout.Content>
+
+                    <Footer />
+                </Layout>
+            </BrowserRouter>
         );
     }
 }

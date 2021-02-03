@@ -1,15 +1,16 @@
 import React, { Component } from 'react'
+import { Layout } from 'antd'
 
-export class Home extends Component {
+export default class Home extends Component {
     render() {
         return (
-            <Container className="px-3">
+            <Layout.Content style={{ padding: '0 50px' }}>
                 <h1>OnlineJudge</h1>
                 <p class="lead">快速提高算法编程能力</p>
                 <p class="lead">
                     <a href="/login" class="btn btn-lg btn-secondary fw-bold">登录</a>
                 </p>
-            </Container>
+            </Layout.Content>
         )
     }
 }

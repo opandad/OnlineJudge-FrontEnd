@@ -1,4 +1,4 @@
-import { REAREND_HOSTNAME } from '../configs/Route';
+import { REAREND_HOSTNAME } from '../configs/Rearend';
 
 export const ws = new WebSocket("ws://"+REAREND_HOSTNAME);
 
