@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ant-design/icons": "^4.4.0",
     "@craco/craco": "^6.1.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "antd": "^4.12.1",
     "craco-less": "^1.17.1",
     "crypto-js": "^4.0.0",
     "react": "^17.0.1",
@@ -42,5 +44,6 @@
   "description": "算法竞赛平台",
   "main": "index.js",
   "author": "tSupan",
-  "license": "MIT"
+  "license": "MIT",
+  "repository": "https://github.com/tSupan/OnlineJudge-FrontEnd.git"
 }
