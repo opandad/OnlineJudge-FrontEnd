@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { SHA1 } from 'crypto-js'
 import { ws } from '../../utils/Websocket'
-import { Form, Input, Button, Checkbox, Row } from 'antd';
+import { Form, Input, Button, Checkbox, Row, Col } from 'antd';
 
 const layout = {
     labelCol: { span: 8 },
@@ -27,6 +27,14 @@ const tailLayout = {
     | NavigationBar     |    no    |     no    |
 */
 export default class LoginFormByEmail extends Component {
+    layout = {
+        labelCol: { span: 8 },
+        wrapperCol: { span: 16 },
+    };
+    tailLayout = {
+        wrapperCol: { offset: 8, span: 16 },
+    };
+
     constructor(props) {
         super(props);
         this.state = {
@@ -47,11 +55,11 @@ export default class LoginFormByEmail extends Component {
         console.log('Failed:', errorInfo);
     };
 
-
     render() {
         return (
             <Row justify="center">
                 <Form
+                    {...this.layout}
                     name="loginByEmail"
                     initialValues={{
                         remember: true,
@@ -59,7 +67,7 @@ export default class LoginFormByEmail extends Component {
                     onFinish={this.onFinish}
                     onFinishFailed={this.onFinishFailed}
                 >
-                    <Form.Item label="用户名" name="email"
+                    <Form.Item label="邮箱" name="email"
                         rules={[
                             {
                                 required: true,
@@ -69,7 +77,6 @@ export default class LoginFormByEmail extends Component {
                     >
                         <Input />
                     </Form.Item>
-
                     <Form.Item
                         label="密码"
                         name="password"
@@ -83,14 +90,13 @@ export default class LoginFormByEmail extends Component {
                         <Input.Password />
                     </Form.Item>
 
-                    <Form.Item name="remember" valuePropName="checked">
+                    <Form.Item {...tailLayout} name="remember" valuePropName="checked">
                         <Checkbox>自动登录</Checkbox>
                     </Form.Item>
-
-                    <Form.Item>
+                    <Form.Item {...tailLayout}>
                         <Button type="primary" htmlType="submit">
                             登录
-                    </Button>
+                            </Button>
                     </Form.Item>
                 </Form>
             </Row>
