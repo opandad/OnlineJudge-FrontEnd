@@ -22,8 +22,8 @@ ws.onmessage = (e) => {
     websocketData = JSON.parse(e.data);
     console.log("解析后: " + e.data);
     console.log(websocketData["userID"]);
-    document.cookie(e.data)
-    // ws.send("send")
+    // document.cookie(e.data)
+    ws.send("send")
 };
 
 ws.onerror = (e) => {
