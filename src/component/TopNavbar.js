@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import { Menu, Layout } from 'antd';
-import { BrowserRouter, Link, Switch, Route } from 'react-router-dom';
-import { UnorderedListOutlined, AppstoreOutlined, SettingOutlined, LoginOutlined, LogoutOutlined, HomeOutlined } from '@ant-design/icons';
-import Home from '../../page/Home';
-import Login from '../../page/Login';
+import React, { Component } from 'react'
+import { Menu, Layout } from 'antd'
+import { Link } from 'react-router-dom'
+import { UnorderedListOutlined, AppstoreOutlined, SettingOutlined, LoginOutlined, LogoutOutlined, HomeOutlined } from '@ant-design/icons'
+import LoginMenuItem from './menu/LoginMenuItem'
+import LogoutMenuItem from './menu/LogoutMenuItem'
 
-import '../../assets/css/TopNavbar.less';
+import '../assets/css/TopNavbar.less'
 
 /*
     @Title
     
-    ~/src/component/navbar/TopNavbar.js
+    ~/src/component/TopNavbar.js
     
     @Description
     
@@ -26,6 +26,7 @@ export default class TopNavbar extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            isLoggedIn: false,
             current: 'mail',
         };
     }
@@ -36,6 +37,14 @@ export default class TopNavbar extends Component {
     };
 
     render() {
+        const isLoggedIn=this.state.isLoggedIn;
+        let isLoggedInMenuItem;
+        if(isLoggedIn){
+            isLoggedInMenuItem = <LogoutMenuItem />
+        }else{
+            isLoggedInMenuItem = <LoginMenuItem />
+        }
+
         return (
             <Layout.Header>
                 <div className="logo" />
@@ -62,14 +71,7 @@ export default class TopNavbar extends Component {
                         </Menu.ItemGroup>
                     </Menu.SubMenu>
 
-                    <Menu.Item key="login" icon={<LoginOutlined />}>
-                        <Link to="/login">
-                            登录
-                        </Link>
-                    </Menu.Item>
-                    <Menu.Item key="logout" icon={<LogoutOutlined />}>
-                        退出
-                    </Menu.Item>
+                    {isLoggedInMenuItem}
                 </Menu>
             </Layout.Header>
         );

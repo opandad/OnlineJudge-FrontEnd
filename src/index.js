@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 import './utils/Websocket'
-import TopNavbar from './component/navbar/TopNavbar';
+import TopNavbar from './component/TopNavbar';
 import Footer from './component/Footer'
 import { Layout } from 'antd';
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
