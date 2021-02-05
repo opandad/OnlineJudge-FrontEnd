@@ -1,17 +1,11 @@
 import React, { Component } from 'react'
 import { SHA1 } from 'crypto-js'
 import { ws } from '../../utils/Websocket'
-import { Form, Input, Button, Checkbox, Row, Col } from 'antd';
-
-const layout = {
-    labelCol: { span: 8 },
-    wrapperCol: { span: 16 },
-};
-const tailLayout = {
-    wrapperCol: { offset: 8, span: 16 },
-};
+import { Form, Input, Button, Checkbox, Row } from 'antd';
 
 /*
+    还差加密
+
     @Title
     
     ~/src/component/form/LoginForm.js
@@ -35,20 +29,21 @@ export default class LoginFormByEmail extends Component {
         wrapperCol: { offset: 8, span: 16 },
     };
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            email: "",
-            password: ""
+    onFinish = (values) => {
+        var loginInfo = {
+            RequestPath:"user/login/email",
+            user:{
+                account: values["account"],
+                password: values["password"]//SHA1(values["password"]).toString()
+            }
         };
 
-        this.loginEmailChange = this.loginEmailChange.bind(this);
-        this.loginPasswordChange = this.loginPasswordChange.bind(this);
-        this.loginByEmail = this.loginByEmail.bind(this);
-    }
+        //存入cookie
+        if(values["remember"]){
+            
+        }
 
-    onFinish = (values) => {
-        console.log('Success:', values);
+        ws.send(loginInfo)
     };
 
     onFinishFailed = (errorInfo) => {
@@ -67,7 +62,7 @@ export default class LoginFormByEmail extends Component {
                     onFinish={this.onFinish}
                     onFinishFailed={this.onFinishFailed}
                 >
-                    <Form.Item label="邮箱" name="email"
+                    <Form.Item label="邮箱" name="account"
                         rules={[
                             {
                                 required: true,
@@ -90,10 +85,10 @@ export default class LoginFormByEmail extends Component {
                         <Input.Password />
                     </Form.Item>
 
-                    <Form.Item {...tailLayout} name="remember" valuePropName="checked">
+                    <Form.Item {...this.tailLayout} name="remember" valuePropName="checked">
                         <Checkbox>自动登录</Checkbox>
                     </Form.Item>
-                    <Form.Item {...tailLayout}>
+                    <Form.Item {...this.tailLayout}>
                         <Button type="primary" htmlType="submit">
                             登录
                             </Button>
@@ -101,33 +96,5 @@ export default class LoginFormByEmail extends Component {
                 </Form>
             </Row>
         );
-    }
-
-    loginByEmail(event) {
-        event.preventDefault();
-        // console.log("email: " + this.state.email + "  password: " + this.state.password);
-        // console.log(SHA1(this.state.password).toString());
-
-        //TODO
-        var loginInfo = {
-            "account": this.state.email,
-            "password": this.state.password,//SHA1(this.state.password).toString(),
-            "loginByWhat": "email",
-            "msg": "login",
-        }
-
-        ws.send(JSON.stringify(loginInfo));
-    }
-
-    loginEmailChange(event) {
-        this.setState({
-            email: event.target.value
-        });
-    }
-
-    loginPasswordChange(event) {
-        this.setState({
-            password: event.target.value
-        });
     }
 }

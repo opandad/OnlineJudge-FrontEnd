@@ -2,10 +2,9 @@ import React, { Component } from 'react'
 import { Menu, Layout } from 'antd'
 import { Link } from 'react-router-dom'
 import { UnorderedListOutlined, AppstoreOutlined, SettingOutlined, LoginOutlined, LogoutOutlined, HomeOutlined } from '@ant-design/icons'
-import LoginMenuItem from './menu/LoginMenuItem'
-import LogoutMenuItem from './menu/LogoutMenuItem'
 
-import '../assets/css/TopNavbar.less'
+import '../../assets/css/TopNavbar.less'
+import { websocketData } from '../../utils/Websocket'
 
 /*
     @Title
@@ -26,27 +25,21 @@ export default class TopNavbar extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLoggedIn: false,
-            current: 'mail',
+            isLoggedIn: websocketData['user']['id'] != null ? true : false,
+            authority: websocketData['user']['authority'],
+            current: 'home',
         };
     }
 
     handleClick = e => {
         console.log('click ', e);
         this.setState({ current: e.key });
+        console.log(this.state.isLoggedIn)
     };
 
     render() {
-        const isLoggedIn=this.state.isLoggedIn;
-        let isLoggedInMenuItem;
-        if(isLoggedIn){
-            isLoggedInMenuItem = <LogoutMenuItem />
-        }else{
-            isLoggedInMenuItem = <LoginMenuItem />
-        }
-
         return (
-            <Layout.Header>
+            <Layout.Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
                 <div className="logo" />
                 <Menu theme="dark" onClick={this.handleClick} selectedKeys={this.state.current} mode="horizontal">
                     <Menu.Item key="home" icon={<HomeOutlined />}>
@@ -54,9 +47,13 @@ export default class TopNavbar extends Component {
                             主页
                         </Link>
                     </Menu.Item>
+
                     <Menu.Item key="problems" icon={<UnorderedListOutlined />}>
-                        题目
-                        </Menu.Item>
+                        <Link to="/problems">
+                            问题
+                        </Link>
+                    </Menu.Item>
+
                     <Menu.Item key="app" icon={<AppstoreOutlined />}>
                         竞赛
                         </Menu.Item>
@@ -70,10 +67,45 @@ export default class TopNavbar extends Component {
                             <Menu.Item key="setting:4">Option 4</Menu.Item>
                         </Menu.ItemGroup>
                     </Menu.SubMenu>
-
-                    {isLoggedInMenuItem}
+                    {this.state.isLoggedIn ? this.LoggedInMenuItem() : this.LoginMenuItem()}
                 </Menu>
             </Layout.Header>
         );
+    }
+
+    LoginMenuItem(props) {
+        return (
+            <Menu.Item key="login" icon={<LoginOutlined />}>
+                <Link to="/login">
+                    登录
+                </Link>
+            </Menu.Item>
+        );
+    }
+
+    LoggedInMenuItem(props) {
+        return (
+            <Menu.SubMenu key="user">
+                <Menu.ItemGroup>
+                    <Menu.Item>
+                        {/*TODO 设置*/}
+                    </Menu.Item>
+                </Menu.ItemGroup>
+
+                <Menu.Divider>我是一条分割线</Menu.Divider>
+
+                <Menu.ItemGroup>
+                    <Menu.Item key="logout" icon={<LogoutOutlined />}>
+                        <Link to="/logout">
+                            退出
+                        </Link>
+                    </Menu.Item>
+                </Menu.ItemGroup>
+            </Menu.SubMenu>
+        );
+    }
+
+    AdminSubmenuItem(props) {
+        return ("");
     }
 }
