@@ -2,54 +2,16 @@ import React, { Component } from 'react'
 import { SHA1 } from 'crypto-js'
 import { ws } from '../../utils/Websocket'
 import { Form, Input, Button, Checkbox, Row } from 'antd';
+import { MailOutlined, LoadingOutlined, CheckOutlined } from '@ant-design/icons'
 
-/*
-    还差加密，存cookie
 
-    @Title
+export class RegistrationFormByEmail extends Component {
     
-    ~/src/component/form/LoginForm.js
-    
-    @Description
-    
-    登录框
-    
-    @Func List（这个需打开函数检查）
-    
-    | func name         | develop  | unit test |
-    
-    | NavigationBar     |    no    |     no    |
-*/
-export default class LoginFormByEmail extends Component {
-    layout = {
-        labelCol: { span: 8 },
-        wrapperCol: { span: 16 },
-    };
-    tailLayout = {
-        wrapperCol: { offset: 8, span: 16 },
-    };
 
-    onFinish = (values) => {
-        //TODO 加密
-        var loginInfo = {
-            RequestPath:"user/login/email",
-            user:{
-                account: values["account"],
-                password: values["password"]//SHA1(values["password"]).toString()
-            }
-        };
+    sendVerifyCode(props){
 
-        //TODO 存入cookie
-        if(values["remember"]){
-        }
-
-        ws.send(loginInfo)
-    };
-
-    onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
-    };
-
+    }
+    
     render() {
         return (
             <Row justify="center">
@@ -84,17 +46,43 @@ export default class LoginFormByEmail extends Component {
                     >
                         <Input.Password />
                     </Form.Item>
-
+                    <Form.Item
+                        label="确认密码"
+                        name="repeatPassword"
+                        rules={[
+                            {
+                                required: true,
+                                message: '请再一次输入密码！',
+                            },
+                        ]}
+                    >
+                        <Input.Password />
+                    </Form.Item>
+                    <Form.Item
+                        label="邮箱验证码"
+                        name="verifyCode"
+                        rules={[
+                            {
+                                required: true,
+                                message: '请输入邮箱收到的验证码！',
+                            },
+                        ]}
+                    >
+                        <Input />
+                        <Button onClick={this.sendVerifyCode} icon={<MailOutlined />}/>
+                    </Form.Item>
                     <Form.Item {...this.tailLayout} name="remember" valuePropName="checked">
                         <Checkbox>自动登录</Checkbox>
                     </Form.Item>
                     <Form.Item {...this.tailLayout}>
                         <Button type="primary" htmlType="submit">
-                            登录
-                            </Button>
+                            注册
+                        </Button>
                     </Form.Item>
                 </Form>
             </Row>
-        );
+        )
     }
 }
+
+export default RegistrationFormByEmail

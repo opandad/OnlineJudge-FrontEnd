@@ -9,6 +9,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
 import Home from './page/Home'
 import Login from './page/user/Login'
+import Resign from './page/user/Regist'
 import ProblemList from './page/problem/ProblemList'
 
 import 'antd/dist/antd.less';
@@ -39,7 +40,7 @@ class Index extends React.Component {
                                 <Login />
                             </Route>
                             <Route path="/regist">
-
+                                <Resign />
                             </Route>
                         </Switch>
                         </div>
