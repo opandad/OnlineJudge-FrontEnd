@@ -69,7 +69,9 @@ export class RegistrationFormByEmail extends Component {
                         ]}
                     >
                         <Input />
-                        <Button onClick={this.sendVerifyCode} icon={<MailOutlined />}/>
+                        <Button onClick={this.sendVerifyCode} icon={<MailOutlined />}>
+                            发送验证码
+                        </Button>
                     </Form.Item>
                     <Form.Item {...this.tailLayout} name="remember" valuePropName="checked">
                         <Checkbox>自动登录</Checkbox>
