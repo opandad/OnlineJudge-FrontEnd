@@ -9,7 +9,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
 import Home from './page/Home'
 import Login from './page/user/Login'
-import Resign from './page/user/Regist'
+import Resign from './page/user/Registration'
 import ProblemList from './page/problem/ProblemList'
 
 import 'antd/dist/antd.less';
@@ -22,7 +22,6 @@ class Index extends React.Component {
                     <TopNavbar />
 
                     <Layout.Content className="site-layout" style={{ padding: '0 50px', marginTop: 64 }}>
-                        <div>
                         <Switch>
                             <Route path="/home">
                                 <Home />
@@ -43,7 +42,6 @@ class Index extends React.Component {
                                 <Resign />
                             </Route>
                         </Switch>
-                        </div>
                     </Layout.Content>
 
                     <Footer />

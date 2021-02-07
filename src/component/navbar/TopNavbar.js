@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Menu, Layout } from 'antd'
 import { Link } from 'react-router-dom'
-import { UnorderedListOutlined, AppstoreOutlined, SettingOutlined, LoginOutlined, LogoutOutlined, HomeOutlined } from '@ant-design/icons'
+import { UnorderedListOutlined, AppstoreOutlined, UserAddOutlined ,SettingOutlined, LoginOutlined, LogoutOutlined, HomeOutlined } from '@ant-design/icons'
 
 import '../../assets/css/TopNavbar.less'
 import { websocketData } from '../../utils/Websocket'
@@ -68,6 +68,7 @@ export default class TopNavbar extends Component {
                         </Menu.ItemGroup>
                     </Menu.SubMenu>
                     {this.state.isLoggedIn ? this.LoggedInMenuItem() : this.LoginMenuItem()}
+                    {this.state.isLoggedIn ? null : this.RegistMenuItem()}
                 </Menu>
             </Layout.Header>
         );
@@ -78,6 +79,15 @@ export default class TopNavbar extends Component {
             <Menu.Item key="login" icon={<LoginOutlined />}>
                 <Link to="/login">
                     登录
+                </Link>
+            </Menu.Item>
+        );
+    }
+    RegistMenuItem(props) {
+        return (
+            <Menu.Item key="regist" icon={<UserAddOutlined />}>
+                <Link to="/regist">
+                    注册
                 </Link>
             </Menu.Item>
         );
