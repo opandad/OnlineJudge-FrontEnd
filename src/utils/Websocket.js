@@ -9,11 +9,11 @@ export var websocketData = {
     isError: null,
 
     //user
-    user:{
-        id:null,
-        name:null,
-        password:null,
-        authority:null
+    user: {
+        id: null,
+        name: null,
+        password: null,
+        authority: null
     }
 };
 
@@ -22,9 +22,9 @@ ws.onopen = () => {
     var loginInfo = {
         websocketID: "",
         RequestPath: "user/login/auto",
-        user:{
-            userID:0,
-            password:""
+        user: {
+            userID: 0,
+            password: ""
         }
     }
 
@@ -58,53 +58,73 @@ ws.onclose = (e) => {
 <===========================下面是改良版，正在写代码中=====================================>
 */
 
-class OJWebSocket{
-    constructor(){
+class OJWebSocket {
+    constructor() {
         this.websocket = null;
-        
+
         this.handlers = {
-            
+
         };
     }
 
-    initialize = () =>{
-        try{
+    initialize = () => {
+        try {
             this.websocket = new WebSocket("wss://" + REAREND_HOSTNAME);
-        }catch(err){
+        } catch (err) {
             console.log("start websocket error: ", err);
-            setTimeout(()=>{
+            setTimeout(() => {
                 this.initialize();
             }, 10000);
         }
- 
-        this.websocket.onopen = (e)=>{
+
+        this.websocket.onopen = (e) => {
             //打开连接后自动登录
             var loginInfo = {
                 websocketID: "",
                 RequestPath: "user/login/auto",
-                user:{
-                    userID:0,
-                    password:""
+                user: {
+                    userID: 0,
+                    password: ""
                 }
             };
             this.sendData(loginInfo);
         };
 
-        this.websocket.onmessage=(e)=>{
+        this.websocket.onmessage = (e) => {
             var receive = JSON.parse(e.data);
-            
+
+            //error
+            if (receive["isError"] === true) {
+                if (receive["HTTPStatusCode"] === 404) {
+
+                }
+            }
+            else {
+                if (receive["msg"] !== null) {
+                    if (receive["msg"] in this.handlers) {
+                        this.handlers[receive["msg"]]();
+                    }
+                    else {
+                        console.log("不能处理这个数据 " + receive["msg"]);
+                    }
+                }
+            }
         }
 
-        this.websocket.onerror = (e) =>{
+        this.websocket.onerror = (e) => {
 
         };
 
-        this.websocket.onclose = (e) =>{
+        this.websocket.onclose = (e) => {
 
         };
 
-        sendData = (message) =>{
+        sendData = (message) => {
             this.websocket.send(JSON.stringify(message));
         };
     }
+
+    /*
+    <============================发送方法=====================================>
+    */
 }
