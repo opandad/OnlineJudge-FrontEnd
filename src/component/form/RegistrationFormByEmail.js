@@ -47,16 +47,16 @@ export class RegistrationFormByEmail extends Component {
         this.sendVerifyCode = this.sendVerifyCode.bind(this);
     }
 
-    handleAccount(event){
-        this.setState({account: event.target.value});
+    handleAccount(event) {
+        this.setState({ account: event.target.value });
         console.log(this.state.account);
     }
 
     sendVerifyCode(event) {
-        var sendInfo={
-            requestPath:"user/regist/verifyCode/email",
-            user:{
-                account:this.state.account
+        var sendInfo = {
+            requestPath: "user/regist/verifyCode/email",
+            user: {
+                account: this.state.account
             }
         };
 
@@ -151,10 +151,12 @@ export class RegistrationFormByEmail extends Component {
                         </Row>
                     </Form.Item>
                     <Form.Item>
-                        <Row span={10}>
-                            <Button type="primary" htmlType="submit">
-                                注册
-                            </Button>
+                        <Row gutter={[8, 8]}>
+                            <Col offset={12}>
+                                <Button type="primary" htmlType="submit">
+                                    注册
+                                </Button>
+                            </Col>
                         </Row>
                     </Form.Item>
                 </Form>

@@ -1,67 +1,40 @@
-import { REAREND_HOSTNAME } from '../configs/Rearend';
-
-export const ws = new WebSocket("ws://" + REAREND_HOSTNAME);
-
-export var websocketData = {
-    websocketID: null,
-    message: null,
-    httpStatusCode: null,
-    isError: null,
-
-    //user
-    user: {
-        id: null,
-        name: null,
-        password: null,
-        authority: null
-    }
-};
-
-ws.onopen = () => {
-    //Auto login
-    var loginInfo = {
-        websocketID: "",
-        RequestPath: "user/login/auto",
-        user: {
-            userID: 0,
-            password: ""
-        }
-    }
-
-    // connection opened
-    ws.send(JSON.stringify(loginInfo)); // send a message
-};
-
-ws.onmessage = (e) => {
-    // a message was received
-    websocketData = JSON.parse(e.data);
-    console.log("解析后: " + e.data);
-    console.log(websocketData["userID"]);
-    // document.cookie(e.data)
-};
-
-ws.onerror = (e) => {
-    // an error occurred
-    console.log(e.message);
-};
-
-ws.onclose = (e) => {
-    // connection closed
-    console.log(e.code, e.reason);
-    var expires = new Date(new Date() + 24 * 60 * 60 * 1000);
-    // document.cookie = "userID="+stringify(websocketData["userID"]);
-    // Cookies.set('userInfo', websocketData["userID"], {expires: expires});
-};
-
-
 /*
-<===========================下面是改良版，正在写代码中=====================================>
+    处理数据交互用
 */
+import { REAREND_HOSTNAME } from '../configs/Rearend';
 
 class OJWebSocket {
     constructor() {
         this.websocket = null;
+        this.data = {
+            "websocketID": null,
+            "isError": false,
+            "data": {
+                "user": {
+                    "id": null,
+                    "account": null,
+                    "password": null,
+                    "verifyCode": null,
+                    "authority": null,
+                    "loginByWhat": null
+                },
+                "page": {
+                    "pageSize": 20,
+                    "pageIndex": 1
+                },
+                "problems": {
 
+                },
+                "contests": {
+
+                },
+                "languages": {
+                },
+                "submits": {
+
+                }
+            }
+        };
         this.handlers = {
 
         };
@@ -119,12 +92,49 @@ class OJWebSocket {
 
         };
 
-        sendData = (message) => {
+        this.sendData = (message) => {
             this.websocket.send(JSON.stringify(message));
         };
     }
 
     /*
-    <============================发送方法=====================================>
+    <============================handlers函数=====================================>
     */
+    /*
+        用户相关
+    */
+    handleLoginByEmail() {
+
+    }
+    handleLoginByAuto() {
+
+    }
+    handleUserInfo() {
+
+    }
+
+    /*
+        题目相关
+    */
+    handleProblemsList() {
+
+    }
+    handleProblemDetail() {
+
+    }
+    handleSubmit() {
+
+    }
+
+    /*
+        竞赛相关
+    */
+    handleContestsList() {
+
+    }
+    handleContestDetail() {
+
+    }
 }
+
+export const ws = new OJWebSocket;

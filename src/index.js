@@ -23,24 +23,12 @@ class Index extends React.Component {
 
                     <Layout.Content className="site-layout" style={{ padding: '0 50px', marginTop: 64 }}>
                         <Switch>
-                            <Route path="/home">
-                                <Home />
-                            </Route>
-                            <Route path="/problem/list">
-                                <ProblemList />
-                            </Route>
-                            <Route path="/contest/list">
-
-                            </Route>
-                            <Route path="/submit/list">
-
-                            </Route>
-                            <Route path="/login">
-                                <Login />
-                            </Route>
-                            <Route path="/regist">
-                                <Resign />
-                            </Route>
+                            <Route exact path="/" component={Home} />
+                            <Route path="/problem/list" component={ProblemList} />
+                            <Route path="/contest/list" />
+                            <Route path="/submit/list" />
+                            <Route path="/login" component={Login} />
+                            <Route path="/regist" component={Resign} />
                         </Switch>
                     </Layout.Content>
 
