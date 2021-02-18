@@ -36,7 +36,8 @@ class OJWebSocket {
             }
         };
         this.handlers = {
-
+            login: this.Login,
+            logout: this.Logout
         };
     }
 
@@ -68,18 +69,15 @@ class OJWebSocket {
 
             //error
             if (receive["isError"] === true) {
-                if (receive["HTTPStatusCode"] === 404) {
+                if (receive["msg"] === 404) {
 
                 }
             }
             else {
-                if (receive["msg"] !== null) {
-                    if (receive["msg"] in this.handlers) {
-                        this.handlers[receive["msg"]]();
-                    }
-                    else {
-                        console.log("不能处理这个数据 " + receive["msg"]);
-                    }
+                if(receive["function"] in this.handlers){
+                    this.handlers[receive["function"]](receive);
+                }else{
+                    console.error("Cannot handle type: " + receive["function"]);
                 }
             }
         }
@@ -103,36 +101,37 @@ class OJWebSocket {
     /*
         用户相关
     */
-    handleLoginByEmail() {
+    Login(){
 
     }
-    handleLoginByAuto() {
+    Logout(){
 
     }
-    handleUserInfo() {
+
+    UpdateUserInfo() {
 
     }
 
     /*
         题目相关
     */
-    handleProblemsList() {
+    QueryProblemsList() {
 
     }
-    handleProblemDetail() {
+    QueryProblemDetail() {
 
     }
-    handleSubmit() {
+    QuerySubmit() {
 
     }
 
     /*
         竞赛相关
     */
-    handleContestsList() {
+    QueryContestsList() {
 
     }
-    handleContestDetail() {
+    QueryContestDetail() {
 
     }
 }
