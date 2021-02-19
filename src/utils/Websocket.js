@@ -8,31 +8,45 @@ class OJWebSocket {
         this.websocket = null;
         this.data = {
             "websocketID": null,
+            "message": null,
             "isError": false,
+            "errorCode": null,
+            "requestPath": null,
+            "function": null,
             "data": {
-                "user": {
-                    "id": null,
-                    "account": null,
-                    "password": null,
-                    "verifyCode": null,
-                    "authority": null,
-                    "loginByWhat": null
+                "user": [
+                    {
+                        "id": null,
+                        "account": null,
+                        "password": null,
+                        "verifyCode": null,
+                        "authority": null,
+                    }
+                ],
+                "problem": [
+                    {
+
+                    }
+                ],
+                "contest": {
+
+                },
+                "language": {
+                },
+                "submit": {
+
+                },
+                "contestsHasProblems":{
+
+                },
+                "usersJoinContests":{
+
                 },
                 "page": {
                     "pageSize": 20,
                     "pageIndex": 1
                 },
-                "problems": {
-
-                },
-                "contests": {
-
-                },
-                "languages": {
-                },
-                "submits": {
-
-                }
+                "verifyCode":null
             }
         };
         this.handlers = {
@@ -74,9 +88,9 @@ class OJWebSocket {
                 }
             }
             else {
-                if(receive["function"] in this.handlers){
+                if (receive["function"] in this.handlers) {
                     this.handlers[receive["function"]](receive);
-                }else{
+                } else {
                     console.error("Cannot handle type: " + receive["function"]);
                 }
             }
@@ -101,10 +115,10 @@ class OJWebSocket {
     /*
         用户相关
     */
-    Login(){
+    Login() {
 
     }
-    Logout(){
+    Logout() {
 
     }
 
