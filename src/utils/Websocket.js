@@ -14,6 +14,13 @@ class OJWebSocket {
             "requestPath": null,
             "function": null,
             "data": {
+                "email":[
+                    {
+                        "email":null,
+                        "userID":null,
+                        "user":[]
+                    }
+                ],
                 "user": [
                     {
                         "id": null,
@@ -25,28 +32,42 @@ class OJWebSocket {
                 ],
                 "problem": [
                     {
-
+                        "id":null,
+                        "name":null,
+                        "description":null, //json
+                        "isHideToUser":null,
+                        "isRobotProblem":null,
+                        "judggerInfo":null //json
                     }
                 ],
-                "contest": {
-
-                },
-                "language": {
-                },
+                "contest": [
+                    {
+                        "id":null,
+                        "name":null,
+                        "startTime":null,
+                        "endTime":null,
+                        "contestInfo":null //json
+                    }
+                ],
+                "language": [
+                    {
+                        
+                    }
+                ],
                 "submit": {
 
                 },
-                "contestsHasProblems":{
+                "contestsHasProblems": {
 
                 },
-                "usersJoinContests":{
+                "usersJoinContests": {
 
                 },
                 "page": {
                     "pageSize": 20,
                     "pageIndex": 1
                 },
-                "verifyCode":null
+                "verifyCode": null
             }
         };
         this.handlers = {
