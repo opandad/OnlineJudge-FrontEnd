@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 import { UnorderedListOutlined, AppstoreOutlined, UserAddOutlined ,SettingOutlined, LoginOutlined, LogoutOutlined, HomeOutlined } from '@ant-design/icons'
 
 import '../../assets/css/TopNavbar.less'
-import { ws } from '../../utils/Websocket'
 
 /*
     @Title
@@ -25,8 +24,8 @@ export default class TopNavbar extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLoggedIn: ws.data['data']['user']['id'] != null ? true : false,
-            authority: ws.data['data']['user']['authority'],
+            // isLoggedIn: WS.data['data']['user']['id'] != null ? true : false,
+            // authority: WS.data['data']['user']['authority'],
             current: 'home',
         };
     }

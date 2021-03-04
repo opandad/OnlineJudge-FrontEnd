@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { SHA1 } from 'crypto-js'
-import { ws } from '../../utils/Websocket'
+import WS from '../../utils/Websocket'
 import { Form, Input, Button, Checkbox, Row, Col } from 'antd';
 import { MailOutlined, LoadingOutlined, CheckOutlined } from '@ant-design/icons'
 
@@ -62,7 +62,7 @@ export class RegistrationFormByEmail extends Component {
 
         console.log(sendInfo);
 
-        ws.send(JSON.stringify(sendInfo));
+        WS.sendData(sendInfo)
     }
 
     //没完成

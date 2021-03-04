@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { SHA1 } from 'crypto-js'
-import { ws } from '../../utils/Websocket'
+import WS from '../../utils/Websocket'
 import { Form, Input, Button, Checkbox, Row } from 'antd';
 
 /*
@@ -43,7 +43,7 @@ export default class LoginFormByEmail extends Component {
         if(values["remember"]){
         }
 
-        ws.send(loginInfo)
+        WS.sendData(loginInfo)
     };
 
     onFinishFailed = (errorInfo) => {
@@ -91,7 +91,7 @@ export default class LoginFormByEmail extends Component {
                     <Form.Item {...this.tailLayout}>
                         <Button type="primary" htmlType="submit">
                             登录
-                            </Button>
+                        </Button>
                     </Form.Item>
                 </Form>
             </Row>

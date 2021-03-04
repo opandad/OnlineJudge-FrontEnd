@@ -1,110 +1,43 @@
 /*
     处理数据交互用
+
+    bug
+    没有掉线重连机制，用户体验不好
 */
 import { REAREND_HOSTNAME } from '../configs/Rearend';
 
 class OJWebSocket {
     constructor() {
-        this.websocket = null;
-        this.data = {
-            "websocketID": null,
-            "message": null,
-            "isError": false,
-            "errorCode": null,
-            "requestPath": null,
-            "function": null,
-            "data": {
-                "email":[
-                    {
-                        "email":null,
-                        "userID":null,
-                        "user":[]
-                    }
-                ],
-                "user": [
-                    {
-                        "id": null,
-                        "account": null,
-                        "password": null,
-                        "verifyCode": null,
-                        "authority": null,
-                    }
-                ],
-                "problem": [
-                    {
-                        "id":null,
-                        "name":null,
-                        "description":null, //json
-                        "isHideToUser":null,
-                        "isRobotProblem":null,
-                        "judggerInfo":null //json
-                    }
-                ],
-                "contest": [
-                    {
-                        "id":null,
-                        "name":null,
-                        "startTime":null,
-                        "endTime":null,
-                        "contestInfo":null //json
-                    }
-                ],
-                "language": [
-                    {
-                        
-                    }
-                ],
-                "submit": {
-
-                },
-                "contestsHasProblems": {
-
-                },
-                "usersJoinContests": {
-
-                },
-                "page": {
-                    "pageSize": 20,
-                    "pageIndex": 1
-                },
-                "verifyCode": null
-            }
-        };
+        console.log("constructor")
+        
+        
+        this.websocket = new WebSocket("ws://" + REAREND_HOSTNAME);
         this.handlers = {
             login: this.Login,
             logout: this.Logout
         };
-    }
-
-    initialize = () => {
-        try {
-            this.websocket = new WebSocket("wss://" + REAREND_HOSTNAME);
-        } catch (err) {
-            console.log("start websocket error: ", err);
-            setTimeout(() => {
-                this.initialize();
-            }, 10000);
-        }
-
+    
         this.websocket.onopen = (e) => {
             //打开连接后自动登录
-            var loginInfo = {
-                websocketID: "",
-                RequestPath: "user/login/auto",
-                user: {
-                    userID: 0,
-                    password: ""
-                }
-            };
-            this.sendData(loginInfo);
+            // this.data["httpStatus"]["requestPath"]="account/login/user"
+            // this.data["data"]["email"][0]["email"]="abc@qq.com"
+            // this.data["data"]["email"][0]["user"]["password"]="abc"
+
+            this.sendData(this.data);
+
+            console.log("成功连接")
         };
 
         this.websocket.onmessage = (e) => {
             var receive = JSON.parse(e.data);
 
+            //test
+            console.log("接收消息")
+            console.log(receive)
+
             //error
             if (receive["isError"] === true) {
-                if (receive["msg"] === 404) {
+                if (receive["errorCode"] === 404) {
 
                 }
             }
@@ -118,16 +51,21 @@ class OJWebSocket {
         }
 
         this.websocket.onerror = (e) => {
-
+            console.log("发生错误")
         };
 
         this.websocket.onclose = (e) => {
-
+            console.log("websocket关闭")
         };
+    }
 
-        this.sendData = (message) => {
-            this.websocket.send(JSON.stringify(message));
-        };
+    sendData = (message) => {
+        console.log("发送数据："+JSON.stringify(message))
+        this.websocket.send(JSON.stringify(message));
+    };
+
+    close = () =>{
+        this.websocket.close();
     }
 
     /*
@@ -171,4 +109,5 @@ class OJWebSocket {
     }
 }
 
-export const ws = new OJWebSocket;
+const WS = new OJWebSocket();
+export default WS
