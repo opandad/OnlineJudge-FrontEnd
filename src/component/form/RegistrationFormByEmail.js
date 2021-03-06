@@ -3,6 +3,7 @@ import { SHA1 } from 'crypto-js'
 import WS from '../../utils/Websocket'
 import { Form, Input, Button, Checkbox, Row, Col } from 'antd';
 import { MailOutlined, LoadingOutlined, CheckOutlined } from '@ant-design/icons'
+import {Email,RearEndData} from '../../store/RearEndData'
 
 export class RegistrationFormByEmail extends Component {
     //样式
@@ -49,25 +50,27 @@ export class RegistrationFormByEmail extends Component {
 
     handleAccount(event) {
         this.setState({ account: event.target.value });
-        console.log(this.state.account);
     }
 
     sendVerifyCode(event) {
-        var sendInfo = {
-            requestPath: "user/regist/verifyCode/email",
-            user: {
-                account: this.state.account
-            }
-        };
-
-        console.log(sendInfo);
-
-        WS.sendData(sendInfo)
+        let rearEndData = new RearEndData();
+        rearEndData.httpStatus.requestPath="account/verifyCode/email"
+        rearEndData.data.email.push(new Email());
+        rearEndData.data.email[0].email=this.state.account;
+        WS.SendData(rearEndData)
     }
 
-    //没完成
     onFinish = (values) => {
+        let rearEndData = new RearEndData();
+        rearEndData.httpStatus.requestPath="account/regist/email";
+        rearEndData.data.email.push(new Email());
+        rearEndData.data.email[0].email=values["account"];
+        rearEndData.data.email[0].user.password=values["password"];
+        rearEndData.data.verifyCode=values["verifyCode"];
 
+        //json 避免报错
+        rearEndData.data.email[0].user.userInfo="{}"
+        WS.SendData(rearEndData)
     };
 
     onFinishFailed = (errorInfo) => {

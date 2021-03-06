@@ -38,10 +38,10 @@ class OJWebSocket {
                 }
             }
             else {
-                if (receive["function"] in this.handlers) {
-                    this.handlers[receive["function"]](receive);
+                if (receive["method"] in this.handlers) {
+                    this.handlers[receive["method"]](receive);
                 } else {
-                    console.error("Cannot handle type: " + receive["function"]);
+                    console.error("Cannot handle type: " + receive["method"]);
                 }
             }
         }
