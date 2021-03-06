@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { SHA1 } from 'crypto-js'
 import WS from '../../utils/Websocket'
+import { Email, RearEndData } from '../../store/RearEndData'
 import { Form, Input, Button, Checkbox, Row } from 'antd';
 
 /*
@@ -31,19 +32,19 @@ export default class LoginFormByEmail extends Component {
 
     onFinish = (values) => {
         //TODO 加密
-        var loginInfo = {
-            RequestPath:"user/login/email",
-            user:{
-                account: values["account"],
-                password: values["password"]//SHA1(values["password"]).toString()
-            }
-        };
+        let email = new Email();
+        email.email=values["account"];
+        email.user.password=values["password"];
+
+        let rearEndData = new RearEndData();
+        rearEndData.data.email.push(email);
+        rearEndData.httpStatus.requestPath="account/login/email";
 
         //TODO 存入cookie
         if(values["remember"]){
         }
 
-        WS.sendData(loginInfo)
+        WS.SendData(rearEndData);
     };
 
     onFinishFailed = (errorInfo) => {

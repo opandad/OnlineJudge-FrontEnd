@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Layout } from 'antd'
+import { Link } from 'react-router-dom'
 
 export default class Home extends Component {
     render() {
@@ -7,9 +8,9 @@ export default class Home extends Component {
             <Layout.Content style={{ padding: '0 50px' }}>
                 <h1>OnlineJudge</h1>
                 <p class="lead">快速提高算法编程能力</p>
-                <p class="lead">
-                    <a href="/login" class="btn btn-lg btn-secondary fw-bold">登录</a>
-                </p>
+                <Link to="/login">
+                    登录
+                </Link>
             </Layout.Content>
         )
     }
