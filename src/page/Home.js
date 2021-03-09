@@ -7,7 +7,7 @@ export default class Home extends Component {
         return (
             <Layout.Content style={{ padding: '0 50px' }}>
                 <h1>OnlineJudge</h1>
-                <p class="lead">快速提高算法编程能力</p>
+                <p>快速提高算法编程能力</p>
                 <Link to="/login">
                     登录
                 </Link>

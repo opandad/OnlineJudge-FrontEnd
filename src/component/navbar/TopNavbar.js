@@ -2,9 +2,7 @@ import React, { Component } from 'react'
 import { Menu, Layout } from 'antd'
 import { Link } from 'react-router-dom'
 import { UnorderedListOutlined, AppstoreOutlined, UserAddOutlined ,SettingOutlined, LoginOutlined, LogoutOutlined, HomeOutlined } from '@ant-design/icons'
-
 import '../../assets/css/TopNavbar.less'
-
 /*
     @Title
     
@@ -24,14 +22,17 @@ export default class TopNavbar extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            // isLoggedIn: WS.data['data']['user']['id'] != null ? true : false,
-            // authority: WS.data['data']['user']['authority'],
+            isLoggedIn: false,
+            authority:null,
             current: 'home',
         };
     }
 
-    componentDidMount(){
-
+    updateProps(userID, authority){
+        this.setState({
+            isLoggedIn: (userID !== 0) ? true: false,
+            authority: authority,
+        })
     }
 
     handleClick = e => {
@@ -51,8 +52,8 @@ export default class TopNavbar extends Component {
                         </Link>
                     </Menu.Item>
 
-                    <Menu.Item key="problems" icon={<UnorderedListOutlined />}>
-                        <Link to="/problems">
+                    <Menu.Item key="problem" icon={<UnorderedListOutlined />}>
+                        <Link to="/problem/list">
                             问题
                         </Link>
                     </Menu.Item>
@@ -77,7 +78,7 @@ export default class TopNavbar extends Component {
         );
     }
 
-    LoginMenuItem(props) {
+    LoginMenuItem() {
         return (
             <Menu.Item key="login" icon={<LoginOutlined />}>
                 <Link to="/login">
@@ -86,7 +87,7 @@ export default class TopNavbar extends Component {
             </Menu.Item>
         );
     }
-    RegistMenuItem(props) {
+    RegistMenuItem() {
         return (
             <Menu.Item key="regist" icon={<UserAddOutlined />}>
                 <Link to="/regist">
@@ -96,7 +97,7 @@ export default class TopNavbar extends Component {
         );
     }
 
-    LoggedInMenuItem(props) {
+    LoggedInMenuItem() {
         return (
             <Menu.SubMenu key="user">
                 <Menu.ItemGroup>
@@ -118,7 +119,7 @@ export default class TopNavbar extends Component {
         );
     }
 
-    AdminSubmenuItem(props) {
+    AdminSubmenuItem() {
         return ("");
     }
 }

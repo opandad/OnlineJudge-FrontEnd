@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { SHA1 } from 'crypto-js'
-import WS from '../../utils/Websocket'
-import { Email, RearEndData } from '../../store/RearEndData'
+import { Email, LoginInfo } from '../../store/Data'
 import { Form, Input, Button, Checkbox, Row } from 'antd';
+import { REAREND_HOSTNAME } from '../../configs/Rearend';
+import { FRONTEND_HOSTNAME } from '../../configs/Frontend';
 
 /*
     还差加密，存cookie
@@ -29,22 +30,36 @@ export default class LoginFormByEmail extends Component {
     tailLayout = {
         wrapperCol: { offset: 8, span: 16 },
     };
-
     onFinish = (values) => {
-        //TODO 加密
-        let email = new Email();
-        email.email=values["account"];
-        email.user.password=values["password"];
+        fetch(REAREND_HOSTNAME + "/account/login/email", {
+            method: 'POST',
+            headers: {
+                'Accept': '/application/json',
+                'Content-Type': '/application/json'
+            },
+            body: JSON.stringify({
+                "account": values["account"],
+                "password": values["password"]
+            })
+        }).then((response) => response.json())
+            .then((result) => {
+                console.log(result);
 
-        let rearEndData = new RearEndData();
-        rearEndData.data.email.push(email);
-        rearEndData.httpStatus.requestPath="account/login/email";
+                alert(result.httpStatus.msg);
 
-        //TODO 存入cookie
-        if(values["remember"]){
-        }
-
-        WS.SendData(rearEndData);
+                if (result.httpStatus.isError === false) {
+                    window.localStorage.setItem("userID", result.loginInfo.userID);
+                    window.localStorage.setItem("password", result.loginInfo.password);
+                    window.location.href = FRONTEND_HOSTNAME;
+                }
+            },
+                (error) => {
+                    this.setState({
+                        isLoaded: true,
+                        error
+                    })
+                }
+            )
     };
 
     onFinishFailed = (errorInfo) => {

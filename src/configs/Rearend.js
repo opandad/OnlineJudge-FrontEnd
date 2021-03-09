@@ -1,1 +1,1 @@
-export const REAREND_HOSTNAME = "127.0.0.1:8080"
+export const REAREND_HOSTNAME = "http://127.0.0.1:8080"

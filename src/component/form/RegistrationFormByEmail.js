@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { SHA1 } from 'crypto-js'
-import WS from '../../utils/Websocket'
 import { Form, Input, Button, Checkbox, Row, Col } from 'antd';
-import { MailOutlined, LoadingOutlined, CheckOutlined } from '@ant-design/icons'
-import {Email,RearEndData} from '../../store/RearEndData'
+import { MailOutlined } from '@ant-design/icons'
+import {Email} from '../../store/Data'
+import { REAREND_HOSTNAME } from '../../configs/Rearend';
 
 export class RegistrationFormByEmail extends Component {
     //样式
@@ -53,24 +53,53 @@ export class RegistrationFormByEmail extends Component {
     }
 
     sendVerifyCode(event) {
-        let rearEndData = new RearEndData();
-        rearEndData.httpStatus.requestPath="account/verifyCode/email"
-        rearEndData.data.email.push(new Email());
-        rearEndData.data.email[0].email=this.state.account;
-        WS.SendData(rearEndData)
+        fetch(REAREND_HOSTNAME + "/account/verifyCode/email", {
+            method: 'POST',
+            headers: {
+                'Accept': '/application/json',
+                'Content-Type': '/application/json'
+            },
+            body: JSON.stringify({
+                "account": this.state.account
+            })
+        }).then((response) => response.json())
+            .then((result) => {
+                console.log(result);
+
+                alert(result.httpStatus.msg);
+            },
+                (error) => {
+                    console.log(error)
+                }
+            )
     }
 
     onFinish = (values) => {
-        let rearEndData = new RearEndData();
-        rearEndData.httpStatus.requestPath="account/regist/email";
-        rearEndData.data.email.push(new Email());
-        rearEndData.data.email[0].email=values["account"];
-        rearEndData.data.email[0].user.password=values["password"];
-        rearEndData.data.verifyCode=values["verifyCode"];
+        fetch(REAREND_HOSTNAME + "/account/regist/email", {
+            method: 'POST',
+            headers: {
+                'Accept': '/application/json',
+                'Content-Type': '/application/json'
+            },
+            body: JSON.stringify({
+                "account": values["account"],
+                "password": values["password"],
+                "verifyCode": values["verifyCode"]
+            })
+        }).then((response) => response.json())
+            .then((result) => {
+                console.log(result);
 
-        //json 避免报错
-        rearEndData.data.email[0].user.userInfo="{}"
-        WS.SendData(rearEndData)
+                alert(result.httpStatus.msg);
+
+                if(result.httpStatus.isError == false){
+                    this.props.history.push('/');
+                }
+            },
+                (error) => {
+                    console.log(error)
+                }
+            )
     };
 
     onFinishFailed = (errorInfo) => {
