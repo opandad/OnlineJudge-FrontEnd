@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Table } from 'antd';
 import { REAREND_HOSTNAME } from '../../configs/Rearend';
-import { FRONTEND_HOSTNAME } from '../../configs/Frontend';
+import { Link } from 'react-router-dom'
 
 export class ProblemList extends Component {
     constructor(props) {
@@ -28,12 +28,12 @@ export class ProblemList extends Component {
             .then((response) => response.json())
             .then((result) => {
                 this.setState({
-                        problemsList: result.problem,
-                        current: current,
-                        pageSize: pageSize,
-                        total: result.total,
-                        isLoaded: true
-                    }
+                    problemsList: result.problem,
+                    current: current,
+                    pageSize: pageSize,
+                    total: result.total,
+                    isLoaded: true
+                }
                 );
             },
                 (error) => {
@@ -60,13 +60,17 @@ export class ProblemList extends Component {
             {
                 title: '题目编号',
                 dataIndex: 'id',
-                key: 'id',
-                render: text => <a>{text}</a>,
+                render: function(id){
+                    let link = "/problem/detail/"+id
+                    return(
+                        <Link to={link}>{id}</Link>
+                    )
+                }
+                // render: text => <Link to="/problem/detail/">{text}</Link>
             },
             {
                 title: '题目名称',
                 dataIndex: 'name',
-                key: 'name',
             }
         ];
 

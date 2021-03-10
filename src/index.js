@@ -13,6 +13,7 @@ import Loading from './page/public/Loading'
 import { FRONTEND_HOSTNAME } from './configs/Frontend'
 import 'antd/dist/antd.less'
 import { LoginInfo } from './store/Data'
+import ProblemDetail from './page/problem/ProblemDetail'
 
 class Index extends React.Component {
     constructor(props) {
@@ -125,6 +126,7 @@ class Index extends React.Component {
                                 <Route path="/submit/list" />
                                 <Route path="/login" component={Login} />
                                 <Route path="/regist" component={Resign} />
+                                <Route path="/problem/detail/:id" component={ProblemDetail} />
                             </Switch>
                         </Layout.Content>
                         <Layout.Footer style={{ textAlign: 'center' }} >
