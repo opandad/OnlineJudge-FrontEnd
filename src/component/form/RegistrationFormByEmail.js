@@ -2,8 +2,9 @@ import React, { Component } from 'react'
 import { SHA1 } from 'crypto-js'
 import { Form, Input, Button, Checkbox, Row, Col } from 'antd';
 import { MailOutlined } from '@ant-design/icons'
-import {Email} from '../../store/Data'
 import { REAREND_HOSTNAME } from '../../configs/Rearend';
+import 'antd/dist/antd.less'
+import { FRONTEND_HOSTNAME } from '../../configs/Frontend';
 
 export class RegistrationFormByEmail extends Component {
     //样式
@@ -66,7 +67,7 @@ export class RegistrationFormByEmail extends Component {
             .then((result) => {
                 console.log(result);
 
-                alert(result.httpStatus.msg);
+                alert(result.msg);
             },
                 (error) => {
                     console.log(error)
@@ -92,8 +93,12 @@ export class RegistrationFormByEmail extends Component {
 
                 alert(result.httpStatus.msg);
 
-                if(result.httpStatus.isError == false){
-                    this.props.history.push('/');
+                if(result.httpStatus.isError === false){
+                    window.localStorage.setItem('userID', result.user.id)
+                    window.localStorage.setItem('password', result.user.password)
+                    window.localStorage.setItem('authority', result.user.authority)
+
+                    window.location.href=FRONTEND_HOSTNAME
                 }
             },
                 (error) => {

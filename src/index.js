@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import 'antd/dist/antd.css'
 import TopNavbar from './component/navbar/TopNavbar'
 import Footer from './component/Footer'
 import { Layout } from 'antd'
@@ -10,11 +9,11 @@ import Home from './page/Home'
 import Login from './page/user/Login'
 import Resign from './page/user/Registration'
 import ProblemList from './page/problem/ProblemList'
-import 'antd/dist/antd.less'
 import { REAREND_HOSTNAME } from './configs/Rearend'
 import Loading from './page/public/Loading'
-import Error from './page/public/Error'
 import { LoginInfo } from './store/Data'
+import { FRONTEND_HOSTNAME } from './configs/Frontend'
+import 'antd/dist/antd.less'
 
 class Index extends React.Component {
     constructor(props) {
@@ -25,34 +24,48 @@ class Index extends React.Component {
         }
     }
 
-    authLogin(){
+    authLogin() {
         var loginInfo = new LoginInfo();
         loginInfo.userID = window.localStorage.getItem('userID');
         loginInfo.password = window.localStorage.getItem('password');
         loginInfo.snowflakeID = window.localStorage.getItem('snowflakeID');
-        if(loginInfo.userID == ""){
-            this.state({
-                isLoaded:true
+        loginInfo.authority = window.localStorage.getItem('authority');
+
+        // console.log(loginInfo)
+
+        if (loginInfo.userID === 0 || loginInfo.userID === null) {
+            this.setState({
+                isLoaded: true
             })
             return
         }
-        else{
+        else {
             //bug  逻辑：验证是否正确，如不正确清除掉
-            fetch(REAREND_HOSTNAME + "/snowflakeID", {
+            fetch(REAREND_HOSTNAME + "/authLogin", {
                 method: 'POST',
                 headers: {
                     'Accept': '/application/json',
                     'Content-Type': '/application/json'
                 },
                 body: JSON.stringify({
-                    "snowflakeID": window.localStorage.getItem('snowflakeID')
+                    loginInfo: loginInfo
                 })
             })
                 .then(res => res.json())
                 .then(
                     (result) => {
-                        window.localStorage.setItem('snowflakeID', result.snowflakeID)
-                        this.authLogin();
+                        // console.log(result)
+
+                        if (result.isError === true) {
+                            window.localStorage.setItem('userID', null);
+                            window.localStorage.setItem('password', null);
+                            window.localStorage.setItem('authority', null);
+                            alert('账号疑似被盗');
+                            window.location.href = FRONTEND_HOSTNAME;
+                        }
+                        this.setState({
+                            isLoaded: true
+                        });
                     },
                     (error) => {
                         this.setState({
@@ -84,7 +97,7 @@ class Index extends React.Component {
                 (error) => {
                     this.setState({
                         isLoaded: true,
-                        error
+                        error: error
                     });
                 }
             )
@@ -93,10 +106,7 @@ class Index extends React.Component {
     render() {
         const { error, isLoaded } = this.state;
         if (error) {
-            // return <div>Error: {error.message}</div>;
-            return(
-                <Error msg={error} />
-            )
+            return <div>Error: {error.message}</div>;
         } else if (!isLoaded) {
             return <Loading />;
         }
@@ -104,9 +114,11 @@ class Index extends React.Component {
             return (
                 <BrowserRouter>
                     <Layout>
-                        <TopNavbar />
+                        <Layout.Header style={{background: '#fff'}} >
+                            <TopNavbar />
+                        </Layout.Header>
 
-                        <Layout.Content className="site-layout" style={{ padding: '0 50px', marginTop: 64 }}>
+                        <Layout.Content style={{ padding: '0 50px', marginTop: 64 }}>
                             <Switch>
                                 <Route exact path="/" component={Home} />
                                 <Route path="/problem/list" component={ProblemList} />
@@ -116,8 +128,9 @@ class Index extends React.Component {
                                 <Route path="/regist" component={Resign} />
                             </Switch>
                         </Layout.Content>
-
-                        <Footer />
+                        <Layout.Footer style={{ textAlign: 'center' }} >
+                            OnlineJudge {new Date().toLocaleDateString()}
+                        </Layout.Footer>
                     </Layout>
                 </BrowserRouter>
             )

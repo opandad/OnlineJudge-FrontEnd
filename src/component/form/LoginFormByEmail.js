@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { SHA1 } from 'crypto-js'
-import { Email, LoginInfo } from '../../store/Data'
 import { Form, Input, Button, Checkbox, Row } from 'antd';
 import { REAREND_HOSTNAME } from '../../configs/Rearend';
 import { FRONTEND_HOSTNAME } from '../../configs/Frontend';
+import 'antd/dist/antd.less'
 
 /*
     还差加密，存cookie
@@ -50,6 +50,7 @@ export default class LoginFormByEmail extends Component {
                 if (result.httpStatus.isError === false) {
                     window.localStorage.setItem("userID", result.loginInfo.userID);
                     window.localStorage.setItem("password", result.loginInfo.password);
+                    window.localStorage.setItem('authority', result.loginInfo.authority);
                     window.location.href = FRONTEND_HOSTNAME;
                 }
             },

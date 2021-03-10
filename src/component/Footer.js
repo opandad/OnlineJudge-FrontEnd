@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import {Layout} from 'antd'
+import 'antd/dist/antd.less'
 
 export default class Footer extends Component {
     render() {
         return (
-            <Layout.Footer style={{ textAlign: 'center' }}>
-                OnlineJudge {new Date().toLocaleDateString()}
-            </Layout.Footer>
+            <>
+            OnlineJudge {new Date().toLocaleDateString()}
+            </>
         );
     }
 }

@@ -181,11 +181,11 @@ export class UserData{
 // <=============== other ==============>
 export class LoginInfo{
     constructor(){
-        this.account = "";
-        this.userID = 0;
-        this.password = "";
-        this.authority = "";
-        this.snowflakeID = "";
+        this.account = null;
+        this.userID = null;
+        this.password = null;
+        this.authority = null;
+        this.snowflakeID = null;
         this.verifyCode = null;
     }
 }

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import 'antd/dist/antd.css';
 import { Table, Space } from 'antd';
 import { REAREND_HOSTNAME } from '../../configs/Rearend';
 
@@ -9,28 +8,26 @@ export class ProblemList extends Component {
         this.state = {
             error: null,
             isLoaded: false,
-            problemsList: []
+            problemsList: [],
+            pageIndex: 1,
+            pageSize: 5
         }
     }
 
-    componentDidMount() {
-        fetch(REAREND_HOSTNAME + "/problem", {
+    LoadingProblem(pageIndex, pageSize){
+        fetch(REAREND_HOSTNAME + "/problem?pageIndex="+pageIndex+"&pageSize="+pageSize, {
             method: 'GET',
             headers: {
                 'Accept': '/application/json',
                 'Content-type':'/application/json'
-            },
-            body:{
-                "pageIndex":1,
-                "pageSize":5
             }
         })
             .then((response) => response.json())
-            .then((jsonData) => {
-                console.log(jsonData);
+            .then((result) => {
+                console.log(result);
                 this.setState({
                     isLoaded: true,
-                    problemsList: [] //bug
+                    problemsList: result.Problem //bug
                 });
 
             },
@@ -43,18 +40,24 @@ export class ProblemList extends Component {
             )
     }
 
+    componentDidMount() {
+        this.LoadingProblem(1, 5)
+    }
+
     render() {
+        const {isLoaded, error} = this.state;
+
         const columns = [
             {
                 title: '题目编号',
-                dataIndex: 'ID',
-                key: 'ID',
+                dataIndex: 'id',
+                key: 'id',
                 render: text => <a>{text}</a>,
             },
             {
                 title: '题目名称',
-                dataIndex: 'Name',
-                key: 'Name',
+                dataIndex: 'name',
+                key: 'name',
             },
             {
                 title: 'Action',
@@ -68,9 +71,22 @@ export class ProblemList extends Component {
             },
         ];
 
-        return (
-            <Table columns={columns} dataSource={this.problem} />
-        )
+        if (isLoaded === false){
+            return(
+                <div>
+                    正在加载中。。。。。。。
+                </div>
+            );
+        }else{
+            if (error){
+                return(
+                    <div>
+                        error: {error.message}
+                    </div>
+                );
+            }
+            return(<Table columns={columns} dataSource={this.problem} />);
+        }
     }
 }
 
