@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import TopNavbar from './component/navbar/TopNavbar'
-import Footer from './component/Footer'
 import { Layout } from 'antd'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 
@@ -11,9 +10,9 @@ import Resign from './page/user/Registration'
 import ProblemList from './page/problem/ProblemList'
 import { REAREND_HOSTNAME } from './configs/Rearend'
 import Loading from './page/public/Loading'
-import { LoginInfo } from './store/Data'
 import { FRONTEND_HOSTNAME } from './configs/Frontend'
 import 'antd/dist/antd.less'
+import { LoginInfo } from './store/Data'
 
 class Index extends React.Component {
     constructor(props) {
@@ -25,7 +24,7 @@ class Index extends React.Component {
     }
 
     authLogin() {
-        var loginInfo = new LoginInfo();
+        let loginInfo = new LoginInfo();
         loginInfo.userID = window.localStorage.getItem('userID');
         loginInfo.password = window.localStorage.getItem('password');
         loginInfo.snowflakeID = window.localStorage.getItem('snowflakeID');
