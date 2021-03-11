@@ -63,10 +63,15 @@ export class ProblemList extends Component {
                 render: function(id){
                     let link = "/problem/detail/"+id
                     return(
-                        <Link to={link}>{id}</Link>
+                        <Link to={{
+                            pathname:link,
+                            state: {
+                                problemID:id,
+                                contestID:0
+                            }
+                        }}>{id}</Link>
                     )
                 }
-                // render: text => <Link to="/problem/detail/">{text}</Link>
             },
             {
                 title: '题目名称',

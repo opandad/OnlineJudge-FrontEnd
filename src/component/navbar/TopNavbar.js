@@ -136,7 +136,7 @@ export default class TopNavbar extends Component {
                         alert(result.msg);
                     }
                     if (result.isError === false) {
-                        let snowflakeID = window.localStorage.getItem('snowflakeID', snowflakeID);
+                        let snowflakeID = window.localStorage.getItem('snowflakeID');
                         window.localStorage.clear();
                         window.localStorage.setItem('snowflakeID', snowflakeID);
                     }
