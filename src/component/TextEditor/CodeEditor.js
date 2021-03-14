@@ -1,140 +1,129 @@
 import React, { Component } from 'react'
-import { UnControlled, Controlled } from 'react-codemirror2'
+import { UnControlled } from 'react-codemirror2'
 import 'codemirror/lib/codemirror.css'
 import 'codemirror/lib/codemirror'
 import 'codemirror/theme/material.css'
-import { Form, Input, Button, Select } from 'antd';
+import 'codemirror/mode/clike/clike';
+import { Form, Button, Select } from 'antd';
+import { REAREND_HOSTNAME } from '../../configs/Rearend'
 
 /*
     传入语言，参数等
 */
 
 export class CodeEditor extends Component {
-    formRef = React.createRef();
-
     constructor(props) {
         super(props)
         this.state = {
-            language: null
-            // contestID:this.props.location.state.contestID,
-            // problemID:this.props.location.state.problemID,
-            // userID:int(window.localStorage.getItem("userID")),
         }
     }
 
-    componentDidMount() {
-        console.log("code editor")
-        console.log(this.props)
-    }
+    componentDidMount() {}
 
-    onGenderChange = (value) => {
-        switch (value) {
-            case 'male':
-                this.formRef.current.setFieldsValue({
-                    note: 'Hi, man!',
-                });
-                return;
-
-            case 'female':
-                this.formRef.current.setFieldsValue({
-                    note: 'Hi, lady!',
-                });
-                return;
-
-            case 'other':
-                this.formRef.current.setFieldsValue({
-                    note: 'Hi there!',
-                });
-        }
+    onLanguageChange = (value) => {
+        this.setState((value) => {
+            return { language: value }
+        })
     };
+
     onFinish = (values) => {
-        console.log(values);
-    };
-    onReset = () => {
-        this.formRef.current.resetFields();
-    };
-    onFill = () => {
-        this.formRef.current.setFieldsValue({
-            note: 'Hello world!',
-            gender: 'male',
-        });
+        let languageID
+        for(let i = 0; i < this.props.languages.length; i++){
+            if(this.props.languages[i].language === values.language){
+                languageID = this.props.languages[i].id
+            }
+        }
+        
+        fetch(REAREND_HOSTNAME + "/submit", {
+            method: 'POST',
+            headers: {
+                'Accept': '/application/json',
+                'Content-type': '/application/json'
+            },
+            body: JSON.stringify({
+                //验证信息
+                "loginInfo": {
+                    "userID": parseInt(window.localStorage.getItem("userID")),
+                    "snowflakeID": window.localStorage.getItem("snowflakeID"),
+                    "password": window.localStorage.getItem("password"),
+                    "authority": window.localStorage.getItem("authority"),
+                },
+                "submit": {
+                    //题目信息
+                    "userID": parseInt(window.localStorage.getItem("userID")),
+                    "problemID": this.props.problemID,
+                    "contestID": this.props.contestID,
+                    "languageID": languageID,
+                    "submitCode": this.code,
+                    // "submitTime": null
+                }
+            })
+        })
+            .then((response) => response.json())
+            .then((result) => {
+                //test
+                console.log(result)
+
+                if (result.isError === false) {
+                    this.setState({
+                        languages: result.languages,
+                        problem: result.problem,
+                        isLoaded: true
+                    });
+                }
+                if (result.msg !== "") {
+                    alert(result.msg)
+                }
+            },
+                (error) => {
+                    this.setState({
+                        isLoaded: true,
+                        error
+                    })
+
+                }
+            )
     };
 
     render() {
+        // console.log(this.props.languages)
+        // console.log(this.state.languageID)
+
+        const languageOptionItem = this.props.languages.map(
+            (element) => <Select.Option value={element.language}>{element.language}</Select.Option>
+        )
+
         return (
             <>
-                <Form ref={this.formRef} name="control-ref" onFinish={this.onFinish}>
+                <Form name="codeForm" onFinish={this.onFinish} initialValues={{ language: this.props.languages[0].language }}>
                     <Form.Item
-                        name="note"
-                        label="Note"
-                        rules={[
-                            {
-                                required: true,
-                            },
-                        ]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        name="gender"
-                        label="Gender"
-                        rules={[
-                            {
-                                required: true,
-                            },
-                        ]}
+                        name="language"
+                        label="语言："
                     >
                         <Select
-                            placeholder="Select a option and change input text above"
-                            onChange={this.onGenderChange}
-                            allowClear
+                            value={this.props.languages[0].language}
+                            onChange={this.onLanguageChange}
                         >
-                            <Select.Option value="male">male</Select.Option>
-                            <Select.Option value="female">female</Select.Option>
-                            <Select.Option value="other">other</Select.Option>
+                            {languageOptionItem}
                         </Select>
                     </Form.Item>
-                    <Form.Item
-                        noStyle
-                        shouldUpdate={(prevValues, currentValues) => prevValues.gender !== currentValues.gender}
-                    >
-                        {({ getFieldValue }) =>
-                            getFieldValue('gender') === 'other' ? (
-                                <Form.Item
-                                    name="customizeGender"
-                                    label="Customize Gender"
-                                    rules={[
-                                        {
-                                            required: true,
-                                        },
-                                    ]}
-                                >
-                                    <Input />
-                                </Form.Item>
-                            ) : null
-                        }
-                    </Form.Item>
                     <Form.Item>
-                        <Button type="primary" htmlType="submit">
-                            Submit
-              </Button>
-                        <Button htmlType="button" onClick={this.onReset}>
-                            Reset
-              </Button>
-                        <Button type="link" htmlType="button" onClick={this.onFill}>
-                            Fill form
-              </Button>
-                    </Form.Item>
-                    <Form.Item>
-                        <Controlled
-                            value={this.state.value}
-                            onBeforeChange={(editor, data, value) => {
-                                this.setState({ value });
+                        <UnControlled
+                            options={{
+                                theme: 'material',
+                                lineNumbers: true,
+                                fullScreen: true
                             }}
-                            onChange={(editor, data, value) => {
+                            onBeforeChange={() => { }}
+                            onBlur={editor => {
+                                this.code = editor.getValue();
                             }}
                         />
                     </Form.Item>
+
+                    <Button type="primary" htmlType="submit">
+                        提交
+                    </Button>
                 </Form>
             </>
         )

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table } from 'antd';
+import { Table, Layout } from 'antd';
 import { REAREND_HOSTNAME } from '../../configs/Rearend';
 import { Link } from 'react-router-dom'
 
@@ -51,6 +51,8 @@ export class ProblemList extends Component {
     }
 
     componentDidMount() {
+        console.log(this.props)
+
         this.LoadingProblem(this.state.current, this.state.pageSize);
     }
 
@@ -94,6 +96,7 @@ export class ProblemList extends Component {
                 );
             }
             return (
+                <Layout.Content style={{ padding: '0 50px', marginTop: 64 }}>
                 <Table
                     columns={columns}
                     dataSource={this.state.problemsList}
@@ -105,6 +108,7 @@ export class ProblemList extends Component {
                     }}
                     onChange={this.onChange}
                 />
+                </Layout.Content>
             );
         }
     }

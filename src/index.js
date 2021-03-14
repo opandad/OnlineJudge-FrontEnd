@@ -14,6 +14,10 @@ import { FRONTEND_HOSTNAME } from './configs/Frontend'
 import 'antd/dist/antd.less'
 import { LoginInfo } from './store/Data'
 import ProblemDetail from './page/problem/ProblemDetail'
+import ContestList from './page/contest/ContestList'
+import SubmitList from './page/submit/SubmitList'
+import ContestDetail from './page/contest/ContestDetail'
+import Admin from './page/admin/Admin'
 
 class Index extends React.Component {
     constructor(props) {
@@ -118,17 +122,20 @@ class Index extends React.Component {
                             <TopNavbar />
                         </Layout.Header>
 
-                        <Layout.Content style={{ padding: '0 50px', marginTop: 64 }}>
+                        <Layout>
                             <Switch>
                                 <Route exact path="/" component={Home} />
                                 <Route path="/problem/list" component={ProblemList} />
-                                <Route path="/contest/list" />
-                                <Route path="/submit/list" />
+                                <Route path="/contest/list" component={ContestList}/>
+                                <Route path="/submit/list" component={SubmitList}/>
                                 <Route path="/login" component={Login} />
                                 <Route path="/regist" component={Resign} />
                                 <Route path="/problem/detail/:id" component={ProblemDetail} />
+                                <Route path="/contest/detail/:id" component={ContestDetail} />
+                                <Route path="/submit/list" component={SubmitList} />
+                                <Route path="/admin" component={Admin} />
                             </Switch>
-                        </Layout.Content>
+                        </Layout>
                         <Layout.Footer style={{ textAlign: 'center' }} >
                             OnlineJudge {new Date().toLocaleDateString()}
                         </Layout.Footer>

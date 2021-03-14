@@ -3,7 +3,7 @@ import { Row, Col } from 'antd'
 import { REAREND_HOSTNAME } from '../../configs/Rearend';
 import CodeEditor from '../../component/TextEditor/CodeEditor'
 import { FRONTEND_HOSTNAME } from '../../configs/Frontend';
-import { Typography, Space } from 'antd';
+import { Typography, Space, Layout } from 'antd';
 
 export class ProblemDetail extends Component {
     constructor(props) {
@@ -12,7 +12,7 @@ export class ProblemDetail extends Component {
             problem: null,
             isLoaded: false,
             error: false,
-            language: null,
+            languages: null,
         }
     }
 
@@ -22,16 +22,57 @@ export class ProblemDetail extends Component {
             headers: {
                 'Accept': '/application/json',
                 'Content-type': '/application/json'
-            }
+            },
         })
             .then((response) => response.json())
             .then((result) => {
                 //test
-                console.log("problem detail result")
-                console.log(result)
+                // console.log("problem detail result")
+                // console.log(result)
+
                 if (result.httpStatus.isError === false) {
                     this.setState({
-                        language: result.language,
+                        languages: result.languages,
+                        problem: result.problem,
+                        isLoaded: true
+                    });
+                }
+                if (result.httpStatus.msg !== "") {
+                    alert(result.httpStatus.message)
+                }
+            },
+                (error) => {
+                    this.setState({
+                        isLoaded: true,
+                        error
+                    })
+
+                }
+            )
+    }
+
+    loadingContestProblemDetail(){
+        // console.log(this.props)
+
+        this.setState({
+            languages: this.props.location.state.languages
+        })
+
+        fetch(REAREND_HOSTNAME + "/problem/" + this.props.location.state.problemID, {
+            method: 'GET',
+            headers: {
+                'Accept': '/application/json',
+                'Content-type': '/application/json'
+            },
+        })
+            .then((response) => response.json())
+            .then((result) => {
+                //test
+                // console.log("problem detail result")
+                // console.log(result.languages)
+
+                if (result.httpStatus.isError === false) {
+                    this.setState({
                         problem: result.problem,
                         isLoaded: true
                     });
@@ -58,7 +99,17 @@ export class ProblemDetail extends Component {
 
         console.log("problem detail")
         console.log(this.props)
-        this.loadingProlemDetail()
+
+        if(parseInt(this.props.location.state.contestID) === 0){
+            console.log("no contest")
+
+            this.loadingProlemDetail()
+        }
+        else{
+            console.log("yes contest")
+
+            this.loadingContestProblemDetail()
+        }
     }
 
     render() {
@@ -79,6 +130,7 @@ export class ProblemDetail extends Component {
             }
             else {
                 return (
+                    <Layout.Content style={{ padding: '0 50px', marginTop: 64 }}>
                     <Row>
                         <Col span={12}>
                             <Row>
@@ -144,8 +196,9 @@ export class ProblemDetail extends Component {
                                 </Space>
                             </Row>
                         </Col>
-                        <Col span={12}><CodeEditor problemID={this.props.location.state.problemID} contestID={this.props.location.state.contestID} language={this.state.language} /></Col>
+                        <Col span={12}><CodeEditor problemID={this.props.location.state.problemID} contestID={this.props.location.state.contestID} languages={this.state.languages} /></Col>
                     </Row>
+                    </Layout.Content>
                 )
             }
         }

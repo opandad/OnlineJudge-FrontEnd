@@ -48,56 +48,67 @@ export default class TopNavbar extends Component {
                 <Menu.Item key="problem" icon={<UnorderedListOutlined />}>
                     <Link to="/problem/list">
                         问题
-                        </Link>
+                    </Link>
                 </Menu.Item>
 
-                <Menu.Item key="app" icon={<AppstoreOutlined />}>
-                    竞赛
-                        </Menu.Item>
-                <Menu.SubMenu key="SubMenu" icon={<SettingOutlined />} title="Navigation Three - Submenu">
-                    <Menu.ItemGroup title="Item 1">
-                        <Menu.Item key="setting:1">Option 1</Menu.Item>
-                        <Menu.Item key="setting:2">Option 2</Menu.Item>
-                    </Menu.ItemGroup>
-                    <Menu.ItemGroup title="Item 2">
-                        <Menu.Item key="setting:3">Option 3</Menu.Item>
-                        <Menu.Item key="setting:4">Option 4</Menu.Item>
-                    </Menu.ItemGroup>
-                </Menu.SubMenu>
+                <Menu.Item key="contest" icon={<AppstoreOutlined />}>
+                    <Link to="/contest/list">
+                        竞赛
+                    </Link>
+                </Menu.Item>
+                <Menu.Item key="submit" icon={<AppstoreOutlined />}>
+                    <Link to="/submit/list">
+                        提交
+                    </Link>
+                </Menu.Item>
                 {this.userStatusMenu(this.state.isLoggedIn, this.state.authority)}
-                {/* {this.state.isLoggedIn ? this.LoggedInMenuItem() : this.LoginMenuItem()} */}
             </Menu>
         );
     }
 
-    adminMenuItem(authority) {
-        if (authority === "admin") {
-            return (
-                <Menu.Item>
-                    管理
-                </Menu.Item>
-            )
-        }
-    }
-
     userStatusMenu(isLoggedIn, authority) {
         if (isLoggedIn === true) {
-            return (
-                <>
-                    <Menu.SubMenu key="user" title="这是已经成功登录后显示的菜单">
-                        <Menu.ItemGroup>
-                            <Menu.Item icon={<SettingOutlined />}>
-                                设置
-                            </Menu.Item>
-                            {this.adminMenuItem(this.authority)}
-                            <Menu.Divider />
-                            <Menu.Item key="logout" icon={<LogoutOutlined />} onClick={this.logout}>
-                                退出
-                            </Menu.Item>
-                        </Menu.ItemGroup>
-                    </Menu.SubMenu>
-                </>
-            );
+            if (authority === "user") {
+                return (
+                    <>
+                        <Menu.SubMenu key="user" title="这是已经成功登录后显示的菜单">
+                            <Menu.ItemGroup>
+                                <Menu.Item icon={<SettingOutlined />}>
+                                    设置
+                                </Menu.Item>
+                                <Menu.Divider />
+                                <Menu.Item key="logout" icon={<LogoutOutlined />} onClick={this.logout}>
+                                    退出
+                                </Menu.Item>
+                            </Menu.ItemGroup>
+                        </Menu.SubMenu>
+                    </>
+                );
+            }
+
+            if (authority === "admin") {
+                return (
+                    <>
+                        <Menu.SubMenu key="user" title="这是已经成功登录后显示的菜单">
+                            <Menu.ItemGroup>
+                                <Menu.Item icon={<SettingOutlined />}>
+                                    设置
+                                </Menu.Item>
+                                <Menu.Divider />
+                                <Menu.Item>
+                                    <Link to="/admin">
+                                        管理
+                                    </Link>
+                                </Menu.Item>
+                                <Menu.Divider />
+                                <Menu.Item key="logout" icon={<LogoutOutlined />} onClick={this.logout}>
+                                    退出
+                                </Menu.Item>
+                            </Menu.ItemGroup>
+                        </Menu.SubMenu>
+                    </>
+                );
+            }
         }
         else {
             return (
