@@ -51,6 +51,7 @@ export default class LoginFormByEmail extends Component {
                     window.localStorage.setItem("userID", result.loginInfo.userID);
                     window.localStorage.setItem("password", result.loginInfo.password);
                     window.localStorage.setItem('authority', result.loginInfo.authority);
+                    window.localStorage.setItem('userName', result.loginInfo.userName);
                     window.location.href = FRONTEND_HOSTNAME;
                 }
             },

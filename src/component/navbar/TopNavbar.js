@@ -71,7 +71,7 @@ export default class TopNavbar extends Component {
             if (authority === "user") {
                 return (
                     <>
-                        <Menu.SubMenu key="user" title="这是已经成功登录后显示的菜单">
+                        <Menu.SubMenu key="user" title={window.localStorage.getItem('userName')}>
                             <Menu.ItemGroup>
                                 <Menu.Item icon={<SettingOutlined />}>
                                     设置
@@ -89,14 +89,14 @@ export default class TopNavbar extends Component {
             if (authority === "admin") {
                 return (
                     <>
-                        <Menu.SubMenu key="user" title="这是已经成功登录后显示的菜单">
+                        <Menu.SubMenu key="user" title={window.localStorage.getItem("userName")}>
                             <Menu.ItemGroup>
-                                <Menu.Item icon={<SettingOutlined />}>
+                                <Menu.Item key="setting" icon={<SettingOutlined />}>
                                     设置
                                 </Menu.Item>
                                 <Menu.Divider />
                                 <Menu.Item>
-                                    <Link to="/admin">
+                                    <Link key="admin" to="/admin">
                                         管理
                                     </Link>
                                 </Menu.Item>

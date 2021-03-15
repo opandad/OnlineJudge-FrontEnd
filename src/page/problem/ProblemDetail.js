@@ -101,12 +101,12 @@ export class ProblemDetail extends Component {
         console.log(this.props)
 
         if(parseInt(this.props.location.state.contestID) === 0){
-            console.log("no contest")
+            // console.log("no contest")
 
             this.loadingProlemDetail()
         }
         else{
-            console.log("yes contest")
+            // console.log("yes contest")
 
             this.loadingContestProblemDetail()
         }

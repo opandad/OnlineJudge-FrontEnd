@@ -39,67 +39,30 @@ export class SubmitList extends Component {
             title: '问题状态',
             key: 'submitState',
             dataIndex: 'submitState',
-            // render: function(tags){
-            //     tags.map(tag => {
-            //         let color
-            //         if (tag === 'Accepted') {
-            //             color = 'green'
-            //         } else if (tag === 'Pending') {
-            //             color = 'grid'
-            //         }
-            //         else {
-            //             color = 'volcano'
-            //         }
-
-            //         return (
-            //             <Tag color={color} key={tag}>
-            //                 {tag.toUpperCase()}
-            //             </Tag>
-            //         );
-            //     })
-            // }
         },
     ];
-
-    //  data = [
-    //     {
-    //       key: '1',
-    //       name: 'John Brown',
-    //       age: 32,
-    //       address: 'New York No. 1 Lake Park',
-    //       tags: ['nice', 'developer'],
-    //     },
-    //     {
-    //       key: '2',
-    //       name: 'Jim Green',
-    //       age: 42,
-    //       address: 'London No. 1 Lake Park',
-    //       tags: ['loser'],
-    //     },
-    //     {
-    //       key: '3',
-    //       name: 'Joe Black',
-    //       age: 32,
-    //       address: 'Sidney No. 1 Lake Park',
-    //       tags: ['cool', 'teacher'],
-    //     },
-    //   ];
 
     constructor(props) {
         super(props)
         this.state = {
             submits: null,
             isLoaded: false,
-            page: null
+            page: null,
         }
+
+        this.onChange = this.onChange.bind(this);
+    }
+    
+    onChange(pagination){
+        this.getSubmitList(pagination.current, pagination.pageSize)
     }
 
     componentDidMount() {
-        this.getSubmitList()
+        this.getSubmitList(1, 10)
     }
 
-    getSubmitList() {
-        console.log(REAREND_HOSTNAME + "/submit/list")
+    getSubmitList(pageIndex, pageSize) {
+        // console.log(REAREND_HOSTNAME + "/submit/list")
 
         fetch(REAREND_HOSTNAME + "/submit/list", {
             method: 'POST',
@@ -114,14 +77,14 @@ export class SubmitList extends Component {
                     languageID: 0,
                     userID: 0
                 },
-                page:{
-                    pageIndex:1,
-                    pageSize: 10
+                page: {
+                    pageIndex: pageIndex,
+                    pageSize: pageSize
                 }
             })
         }).then((response) => response.json())
             .then((result) => {
-                console.log(result)
+                console.log("result", result)
 
                 if (result.httpStatus.isError === false) {
                     this.setState({
@@ -144,7 +107,7 @@ export class SubmitList extends Component {
     }
 
     render() {
-        console.log("render",this.state.submits)
+        console.log("render", this.state.page)
 
         if (this.state.isLoaded === false) {
             return (
@@ -160,8 +123,13 @@ export class SubmitList extends Component {
                 )
             }
             return (
-                <Layout.Content>
-                    <Table columns={this.columns} dataSource={this.state.submits} />
+                <Layout.Content style={{ padding: '0 50px', marginTop: 64 }}>
+                    <Table columns={this.columns} dataSource={this.state.submits} pagination={{
+                        defaultCurrent: this.state.page.current,
+                        total: this.state.page.total64,
+                        defaultPageSize: this.state.page.pageSize,
+                        showSizeChanger: true
+                    }} onChange={this.onChange} />
                 </Layout.Content>
             )
         }
