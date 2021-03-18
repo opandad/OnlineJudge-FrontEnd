@@ -4,13 +4,13 @@ import { REAREND_HOSTNAME } from '../../../configs/Rearend';
 import { Link } from 'react-router-dom'
 import { EditOutlined, PlusOutlined } from '@ant-design/icons'
 
-export class ProblemsListAdmin extends Component {
+export class ContestsManage extends Component {
     constructor(props) {
         super(props)
         this.state = {
             error: null,
             isLoaded: false,
-            problemsList: [],
+            contestsList: [],
             current: 1,
             pageSize: 10,
             total: 0
@@ -19,7 +19,7 @@ export class ProblemsListAdmin extends Component {
     }
 
     LoadingProblem(current, pageSize) {
-        fetch(REAREND_HOSTNAME + "/problem?pageIndex=" + current + "&pageSize=" + pageSize, {
+        fetch(REAREND_HOSTNAME + "/contest?pageIndex=" + current + "&pageSize=" + pageSize, {
             method: 'GET',
             headers: {
                 'Accept': '/application/json',
@@ -28,11 +28,12 @@ export class ProblemsListAdmin extends Component {
         })
             .then((response) => response.json())
             .then((result) => {
+                // console.log(result)
                 this.setState({
-                    problemsList: result.problem,
+                    contestsList: result.contest,
                     current: current,
                     pageSize: pageSize,
-                    total: result.total,
+                    total: result.page.total,
                     isLoaded: true
                 }
                 );
@@ -57,32 +58,57 @@ export class ProblemsListAdmin extends Component {
 
     render() {
         const { isLoaded, error } = this.state;
-        const columns = [
+        let columns = null
+
+        columns = [
             {
-                title: '题目编号',
+                title: '竞赛编号',
                 dataIndex: 'id',
+                key: 'id',
+                render: function (id) {
+                    let link = "/admin/contest/edit/" + id
+                    return (
+                        <Link to={{
+                            pathname: link,
+                            state: {
+                                contestID: id
+                            }
+                        }}>{id}</Link>
+                    )
+                }
             },
             {
-                title: '题目名称',
+                title: '竞赛名称',
                 dataIndex: 'name',
+                key: 'name'
+            },
+            {
+                title: '竞赛开始时间',
+                dataIndex: 'startTime',
+                key: 'startTime'
+            },
+            {
+                title: '竞赛结束时间',
+                dataIndex: 'startTime',
+                key: 'startTime'
             },
             {
                 title: '行为',
-                key: 'action',
                 render: (text, record) => (
                     <Space size="middle">
                         <Button type="primary">
                             <Link to={{
-                                pathname: "/admin/problem/edit/" + record.id,
+                                pathname: "/admin/contest/edit/" + record.id,
                                 state: {
-                                    problemID: record.id
+                                    contestID: record.id
                                 }
                             }}>编辑</Link>
                         </Button>
                     </Space>
                 ),
-            },
+            }
         ];
+
 
         if (isLoaded === false) {
             return (
@@ -103,19 +129,19 @@ export class ProblemsListAdmin extends Component {
                     <Row justify="end">
                         <Button icon={<PlusOutlined />}>
                             <Link to={{
-                                pathname: "/admin/problem/edit/0",
+                                pathname: "/admin/contest/edit/0",
                                 state: {
-                                    problemID: 0
+                                    contestID: 0
                                 }
                             }}>
-                                添加题目
+                                添加比赛
                             </Link>
                         </Button>
                     </Row>
-
+                    
                     <Table
                         columns={columns}
-                        dataSource={this.state.problemsList}
+                        dataSource={this.state.contestsList}
                         pagination={{
                             defaultCurrent: this.state.current,
                             total: this.state.total,
@@ -130,4 +156,4 @@ export class ProblemsListAdmin extends Component {
     }
 }
 
-export default ProblemsListAdmin
+export default ContestsManage

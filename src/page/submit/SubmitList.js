@@ -39,6 +39,35 @@ export class SubmitList extends Component {
             title: '问题状态',
             key: 'submitState',
             dataIndex: 'submitState',
+            render: function (submitState) {
+                if (submitState === 'Accepted') {
+                    return (
+                        <Tag color='green'>
+                            {submitState}
+                        </Tag>
+                    );
+                }
+                if (submitState === 'Pending') {
+                    return (
+                        <Tag color='grid'>
+                            {submitState}
+                        </Tag>
+                    );
+                }
+
+                if (submitState === "Wrong Answer") {
+                    return (
+                        <Tag color='red'>{submitState}</Tag>
+                    );
+                }
+
+                return (
+                    <Tag color='gold'>
+                        {submitState}
+                    </Tag>
+                );
+            }
+
         },
     ];
 
@@ -52,8 +81,8 @@ export class SubmitList extends Component {
 
         this.onChange = this.onChange.bind(this);
     }
-    
-    onChange(pagination){
+
+    onChange(pagination) {
         this.getSubmitList(pagination.current, pagination.pageSize)
     }
 

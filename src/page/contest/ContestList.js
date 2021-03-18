@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table,Layout } from 'antd';
+import { Table, Layout } from 'antd';
 import { REAREND_HOSTNAME } from '../../configs/Rearend';
 import { Link } from 'react-router-dom'
 
@@ -57,16 +57,18 @@ export class ContestList extends Component {
 
     render() {
         const { isLoaded, error } = this.state;
-        const columns = [
+        let columns = null
+
+        columns = [
             {
                 title: '竞赛编号',
                 dataIndex: 'id',
                 key: 'id',
-                render: function(id){
-                    let link = "/contest/detail/"+id
-                    return(
+                render: function (id) {
+                    let link = "/contest/detail/" + id
+                    return (
                         <Link to={{
-                            pathname:link,
+                            pathname: link,
                             state: {
                                 contestID: id
                             }
@@ -77,19 +79,20 @@ export class ContestList extends Component {
             {
                 title: '竞赛名称',
                 dataIndex: 'name',
-                key:'name'
+                key: 'name'
             },
             {
                 title: '竞赛开始时间',
                 dataIndex: 'startTime',
-                key:'startTime'
+                key: 'startTime'
             },
             {
                 title: '竞赛结束时间',
                 dataIndex: 'startTime',
-                key:'startTime'
+                key: 'startTime'
             }
         ];
+
 
         if (isLoaded === false) {
             return (
@@ -107,17 +110,17 @@ export class ContestList extends Component {
             }
             return (
                 <Layout.Content style={{ padding: '0 50px', marginTop: 64 }}>
-                <Table
-                    columns={columns}
-                    dataSource={this.state.contestsList}
-                    pagination={{
-                        defaultCurrent: this.state.current,
-                        total: this.state.total,
-                        defaultPageSize: this.state.pageSize,
-                        showSizeChanger: true
-                    }}
-                    onChange={this.onChange}
-                />
+                    <Table
+                        columns={columns}
+                        dataSource={this.state.contestsList}
+                        pagination={{
+                            defaultCurrent: this.state.current,
+                            total: this.state.total,
+                            defaultPageSize: this.state.pageSize,
+                            showSizeChanger: true
+                        }}
+                        onChange={this.onChange}
+                    />
                 </Layout.Content>
             );
         }

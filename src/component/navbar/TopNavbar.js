@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Menu } from 'antd'
 import { Link } from 'react-router-dom'
-import { UnorderedListOutlined, AppstoreOutlined, UserAddOutlined, SettingOutlined, LoginOutlined, LogoutOutlined, HomeOutlined } from '@ant-design/icons'
+import { UserAddOutlined, SettingOutlined, LoginOutlined, LogoutOutlined, HomeOutlined, TrophyOutlined,CloudUploadOutlined, QuestionOutlined } from '@ant-design/icons'
 import { REAREND_HOSTNAME } from '../../configs/Rearend'
 import { FRONTEND_HOSTNAME } from '../../configs/Frontend'
 /*
@@ -45,18 +45,18 @@ export default class TopNavbar extends Component {
                         </Link>
                 </Menu.Item>
 
-                <Menu.Item key="problem" icon={<UnorderedListOutlined />}>
+                <Menu.Item key="problem" icon={<QuestionOutlined />}>
                     <Link to="/problem/list">
                         问题
                     </Link>
                 </Menu.Item>
 
-                <Menu.Item key="contest" icon={<AppstoreOutlined />}>
+                <Menu.Item key="contest" icon={<TrophyOutlined />}>
                     <Link to="/contest/list">
                         竞赛
                     </Link>
                 </Menu.Item>
-                <Menu.Item key="submit" icon={<AppstoreOutlined />}>
+                <Menu.Item key="submit" icon={<CloudUploadOutlined />}>
                     <Link to="/submit/list">
                         提交
                     </Link>
