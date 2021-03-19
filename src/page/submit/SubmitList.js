@@ -7,37 +7,30 @@ export class SubmitList extends Component {
         {
             title: '提交ID',
             dataIndex: 'id',
-            key: 'id',
             render: text => <a>{text}</a>,
         },
         {
             title: '提交时间',
             dataIndex: 'submitTime',
-            key: 'submitTime',
         },
         {
             title: '用户ID',
             dataIndex: 'userID',
-            key: 'userID',
         },
         {
             title: '问题ID',
             dataIndex: 'problemID',
-            key: 'problemID',
         },
         {
             title: '竞赛ID',
             dataIndex: 'contestID',
-            key: 'contestID',
         },
         {
             title: '使用语言',
             dataIndex: 'languageID',
-            key: 'languageID',
         },
         {
             title: '问题状态',
-            key: 'submitState',
             dataIndex: 'submitState',
             render: function (submitState) {
                 if (submitState === 'Accepted') {
@@ -91,7 +84,17 @@ export class SubmitList extends Component {
     }
 
     getSubmitList(pageIndex, pageSize) {
-        // console.log(REAREND_HOSTNAME + "/submit/list")
+        let problemID = 0
+        let contestID = 0
+        let languageID = 0
+        let userID = 0
+
+        if (typeof (this.props.location.state) !== 'undefined') {
+            problemID = typeof (this.props.location.state.problemID) !== 'undefined' ? this.props.location.state.problemID : 0
+            contestID = typeof (this.props.location.state.contestID) !== 'undefined' ? this.props.location.state.contestID : 0
+            languageID = typeof (this.props.location.state.languageID) !== 'undefined' ? this.props.location.state.languageID : 0
+            userID = typeof (this.props.location.state.userID) !== 'undefined' ? this.props.location.state.userID : 0
+        }
 
         fetch(REAREND_HOSTNAME + "/submit/list", {
             method: 'POST',
@@ -101,10 +104,10 @@ export class SubmitList extends Component {
             },
             body: JSON.stringify({
                 submit: {
-                    contestID: 0,
-                    problemID: 0,
-                    languageID: 0,
-                    userID: 0
+                    contestID: contestID,
+                    problemID: problemID,
+                    languageID: languageID,
+                    userID: userID
                 },
                 page: {
                     pageIndex: pageIndex,
@@ -113,7 +116,7 @@ export class SubmitList extends Component {
             })
         }).then((response) => response.json())
             .then((result) => {
-                console.log("result", result)
+                // console.log("result", result)
 
                 if (result.httpStatus.isError === false) {
                     this.setState({
@@ -136,7 +139,7 @@ export class SubmitList extends Component {
     }
 
     render() {
-        console.log("render", this.state.page)
+        // console.log("render", this.state.page)
 
         if (this.state.isLoaded === false) {
             return (

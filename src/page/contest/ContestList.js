@@ -63,7 +63,6 @@ export class ContestList extends Component {
             {
                 title: '竞赛编号',
                 dataIndex: 'id',
-                key: 'id',
                 render: function (id) {
                     let link = "/contest/detail/" + id
                     return (
@@ -79,17 +78,14 @@ export class ContestList extends Component {
             {
                 title: '竞赛名称',
                 dataIndex: 'name',
-                key: 'name'
             },
             {
                 title: '竞赛开始时间',
                 dataIndex: 'startTime',
-                key: 'startTime'
             },
             {
                 title: '竞赛结束时间',
                 dataIndex: 'startTime',
-                key: 'startTime'
             }
         ];
 

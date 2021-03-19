@@ -42,14 +42,20 @@ export class ContestDetail extends Component {
         })
             .then((response) => response.json())
             .then((result) => {
-                this.setState(
-                    {
-                        problems: [].concat(result.problems),
-                        languages: [].concat(result.languages),
-                        contest: result.contest,
-                        isLoaded: true
-                    }
-                );
+                if(result.msg !== ""){
+                    alert(result.httpStatus.msg)
+                }
+
+                if (result.httpStatus.isError === false){
+                    this.setState(
+                        {
+                            problems: [].concat(result.problems),
+                            languages: [].concat(result.languages),
+                            contest: result.contest,
+                            isLoaded: true
+                        }
+                    );
+                }
             },
                 (error) => {
                     this.setState({
