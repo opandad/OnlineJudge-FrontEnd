@@ -4,7 +4,6 @@ import { FRONTEND_HOSTNAME } from '../../configs/Frontend'
 import { Layout, Menu } from 'antd'
 import ProblemsManage from './problem/ProblemsManage'
 import UsersManage from './user/UsersManage'
-import TeamManage from './team/TeamManage'
 import ProblemEdit from './problem/ProblemEdit'
 import {UserOutlined, QuestionOutlined, TrophyOutlined} from '@ant-design/icons'
 import ProblemDelete from './problem/ProblemDelete'
@@ -51,7 +50,6 @@ export class Admin extends Component {
                         <Route path="/admin/contest/list" component={ContestsManage} />
                         <Route path="/admin/contest/edit" component={ContestsEdit} />
                         <Route path="/admin/user" component={UsersManage} />
-                        <Route path="/admin/team" component={TeamManage} />
                     </Switch>
                 </Layout.Content>
             </>

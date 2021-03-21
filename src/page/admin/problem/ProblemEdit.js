@@ -31,28 +31,11 @@ export class ProblemEdit extends Component {
     }
 
     normFile = (e) => {
-        console.log(e)
-
-        // fetch(REAREND_HOSTNAME + "/upload", {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-type': 'multipart/form-data; boundary=another cool boundary',
-                
-        //     },
-        //     body: e
-        // })
-        //     .then((response) => console.log(response))
-        //     .then((error) => {
-        //             this.setState({
-        //                 isLoaded: true,
-        //                 error
-        //             })
-        //         }
-        //     );
+        // console.log(e)
     };
 
     onFinish = (values) => {
-        console.log(values)
+        // console.log(values)
 
         if (this.props.location.state.problemID > 0) {
             fetch(REAREND_HOSTNAME + "/admin/problem/edit/" + this.props.location.state.problemID, {
@@ -96,7 +79,7 @@ export class ProblemEdit extends Component {
                         window.location.href = FRONTEND_HOSTNAME + "/admin/problem/list"
                     }
                     if (result.httpStatus.msg !== "") {
-                        alert(result.httpStatus.message)
+                        alert(result.httpStatus.msg)
                     }
                 },
                     (error) => {
@@ -140,12 +123,16 @@ export class ProblemEdit extends Component {
             })
                 .then((response) => response.json())
                 .then((result) => {
-                    if (result.isError === false) {
-                        alert(result.msg)
+                    console.log(result)
+                    
+                    if (result.httpStatus.isError === false) {
+                        console.log("跳转")
+
+                        alert(result.httpStatus.msg)
                         window.location.href = FRONTEND_HOSTNAME + "/admin/problem/list"
                     }
                     if (result.httpStatus.msg !== "") {
-                        alert(result.message)
+                        alert(result.httpStatus.msg)
                     }
                 },
                     (error) => {
@@ -209,7 +196,7 @@ export class ProblemEdit extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props.location.state.problemID)
+        // console.log(this.props.location.state.problemID)
 
         if (this.props.location.state.problemID !== 0) {
             this.LoadingProblem()
@@ -331,7 +318,7 @@ export class ProblemEdit extends Component {
                                                 内存限制
                                         </Typography.Text>
                                             <Form.Item name="memoryLimit">
-                                                <InputNumber size="small" min={1000} max={1048576} />
+                                                <InputNumber size="small" min={65536} max={1048576} />
                                             </Form.Item>
                                             <Typography.Text>KB</Typography.Text>
                                         </Row>
@@ -341,18 +328,18 @@ export class ProblemEdit extends Component {
                                                 文件大小限制
                                         </Typography.Text>
                                             <Form.Item name="fileSizeLimit">
-                                                <InputNumber size="small" min={1000} max={1048576} />
+                                                <InputNumber size="small" min={524288} max={1048576} />
                                             </Form.Item>
                                             <Typography.Text>KB</Typography.Text>
                                         </Row>
 
-                                        <Form.Item name="dragger" valuePropName="fileList" getValueFromEvent={this.normFile}>
-                                            <Upload.Dragger name="files" accept=".in,.out" multiple={true} action={REAREND_HOSTNAME + "/upload"} multiple="true">{/*//customRequest={this.uploadFile}>*/}
+                                        <Form.Item name="uploadFiles" valuePropName="fileList" getValueFromEvent={this.normFile}>
+                                            <Upload.Dragger name="files" accept=".in,.out" action={REAREND_HOSTNAME + "/uploadProblemData"} multiple={true}>
                                                 <p className="ant-upload-drag-icon">
                                                     <UploadOutlined />
                                                 </p>
                                                 <p className="ant-upload-text">上传文件</p>
-                                                <p className="ant-upload-hint">仅支持题目数据</p>
+                                                <p className="ant-upload-hint">仅支持题目数据（一个.in文件需对应一个.out文件）</p>
                                             </Upload.Dragger>
                                         </Form.Item>
                                     </Space>
