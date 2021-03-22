@@ -3,7 +3,7 @@ import { Switch, Route, Link } from 'react-router-dom'
 import { FRONTEND_HOSTNAME } from '../../configs/Frontend'
 import { Layout, Menu } from 'antd'
 import ProblemsManage from './problem/ProblemsManage'
-import UsersManage from './user/UsersManage'
+import AccountsManage from './user/AccountsManage'
 import ProblemEdit from './problem/ProblemEdit'
 import {UserOutlined, QuestionOutlined, TrophyOutlined} from '@ant-design/icons'
 import ProblemDelete from './problem/ProblemDelete'
@@ -32,11 +32,11 @@ export class Admin extends Component {
                         defaultOpenKeys={['sub1']}
                         style={{ height: '100%' }}
                     >
-                        <Menu.Item key="problem" icon={<QuestionOutlined />}><Link to="/admin/problem/list">题目管理（未完成）</Link></Menu.Item>
-                        <Menu.Item key="contest" icon={<TrophyOutlined />}><Link to="/admin/contest/list">比赛管理（未完成）</Link></Menu.Item>
+                        <Menu.Item key="problem" icon={<QuestionOutlined />}><Link to="/admin/problem/list">题目管理</Link></Menu.Item>
+                        <Menu.Item key="contest" icon={<TrophyOutlined />}><Link to="/admin/contest/list">比赛管理</Link></Menu.Item>
                         <Menu.SubMenu key="account" icon={<UserOutlined />} title="用户账号管理">
-                            <Menu.Item key="user"><Link to="/admin/user">用户管理（未完成）</Link></Menu.Item>
-                            <Menu.Item key="team"><Link to="/admin/team">队伍管理（未完成）</Link></Menu.Item>
+                            <Menu.Item key="user"><Link to="/admin/user">用户管理</Link></Menu.Item>
+                            <Menu.Item key="team"><Link to="/admin/team">队伍管理</Link></Menu.Item>
                         </Menu.SubMenu>
                     </Menu>
                 </Layout.Sider>
@@ -49,7 +49,7 @@ export class Admin extends Component {
                         <Route path="/admin/problem/delete" component={ProblemDelete} />
                         <Route path="/admin/contest/list" component={ContestsManage} />
                         <Route path="/admin/contest/edit" component={ContestsEdit} />
-                        <Route path="/admin/user" component={UsersManage} />
+                        <Route path="/admin/user" component={AccountsManage} />
                     </Switch>
                 </Layout.Content>
             </>

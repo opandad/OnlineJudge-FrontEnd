@@ -38,7 +38,8 @@ export class ContestsEdit extends Component {
         })
             .then((response) => response.json())
             .then((result) => {
-                // console.log(result)
+                console.log(result)
+
                 if (result.httpStatus.isError === false) {
                     let selectLanguages = []
                     let selectLanguagesMap = []
@@ -66,9 +67,12 @@ export class ContestsEdit extends Component {
                         problems.push(result.problems[i].id)
                     }
 
-                    let users = []
+                    let users = ""
                     for (let i = 0; i < result.users.length; i++) {
-                        users.push(result.users[i].id)
+                        users += result.users[i].id.toString()
+                        if(i !== result.users.length -1){
+                            users += ","
+                        }
                     }
 
                     this.contestForm.current.setFieldsValue({
@@ -95,12 +99,59 @@ export class ContestsEdit extends Component {
             )
     }
 
+    addContestLoading(){
+        fetch(REAREND_HOSTNAME + "/admin/contest/edit/0", {
+            method: 'POST',
+            headers: {
+                'Accept': '/application/json',
+                'Content-type': '/application/json'
+            },
+            body: JSON.stringify({
+                "userID": parseInt(window.localStorage.getItem("userID")),
+                "password": window.localStorage.getItem("password"),
+                "authority": window.localStorage.getItem('authority'),
+            })
+        })
+            .then((response) => response.json())
+            .then((result) => {
+                if (result.httpStatus.isError === false) {
+                    let selectLanguages = []
+                    let selectLanguagesMap = []
+                    for (let i = 0; i < result.selectLanguages.length; i++) {
+                        selectLanguages.push(<Select.Option key={result.selectLanguages[i].id} value={result.selectLanguages[i].language}>{result.selectLanguages[i].language}</Select.Option>);
+                        selectLanguagesMap[result.selectLanguages[i].language] = result.selectLanguages[i].id
+                    }
+
+                    this.setState({
+                        isLoaded: true,
+                        selectLanguages: selectLanguages,
+                        selectLanguagesMap: selectLanguagesMap
+                    });
+                }
+                if (result.httpStatus.msg !== "") {
+                    alert(result.httpStatus.msg)
+                }
+            },
+                (error) => {
+                    this.setState({
+                        isLoaded: true,
+                        error
+                    })
+                }
+            )
+    }
+
     componentDidMount() {
-        this.contestLoading()
+        if(this.props.location.state.contestID !== 0){
+            this.contestLoading()
+        }
+        else{
+            this.addContestLoading()
+        }
     }
 
     onFinish(values) {
-        // console.log(this.state)
+        
         //selectLanguagesMap
         for (let i = 0; i < values.problems.length; i++) {
             values.problems[i] = parseInt(values.problems[i])
@@ -124,6 +175,15 @@ export class ContestsEdit extends Component {
             })
         }
 
+        let strUsers = values.users.split(",")
+        let users = []
+        for (let i = 0; i < strUsers.length; i++){
+            users.push({
+                id: parseInt(strUsers[i])
+            })
+        }
+        console.log(users)
+
         if (this.props.location.state.contestID !== 0) {
             fetch(REAREND_HOSTNAME + "/admin/contest/edit/" + this.props.location.state.contestID, {
                 method: 'PUT',
@@ -144,13 +204,14 @@ export class ContestsEdit extends Component {
                         "endTime": moment(values.contestTime[1]._d).format("YYYY-MM-DD HH:mm:ss"),
                     },
                     "languages": languages,
-                    "problems": problems
+                    "problems": problems,
+                    "users": users
                 })
             })
                 .then((response) => response.json())
                 .then((result) => {
                     if (result.httpStatus.msg !== "") {
-                        alert(result.httpStatus.message)
+                        alert(result.httpStatus.msg)
                     }
                     if (result.httpStatus.isError === false) {
                         window.location.href = FRONTEND_HOSTNAME + "/admin/contest/list"
@@ -184,13 +245,14 @@ export class ContestsEdit extends Component {
                         "endTime": moment(values.contestTime[1]._d).format("YYYY-MM-DD HH:mm:ss"),
                     },
                     "languages": languages,
-                    "problems": problems
+                    "problems": problems,
+                    "users": users
                 })
             })
                 .then((response) => response.json())
                 .then((result) => {
                     if (result.httpStatus.msg !== "") {
-                        alert(result.httpStatus.message)
+                        alert(result.httpStatus.msg)
                     }
                     if (result.httpStatus.isError === false) {
                         window.location.href = FRONTEND_HOSTNAME + "/admin/contest/list"
@@ -311,11 +373,11 @@ export class ContestsEdit extends Component {
                                 </Col>
                                 <Col span={12}>
                                     <Typography.Title level={4}>
-                                        参赛用户ID列表
+                                        参赛用户ID列表(逗号分割)
                                     </Typography.Title>
-                                    {/* <Form.Item name="users">
-                                        <Input.TextArea />
-                                    </Form.Item> */}
+                                    <Form.Item name="users">
+                                        <Input />
+                                    </Form.Item>
                                 </Col>
                             </Row>
                             <Row>

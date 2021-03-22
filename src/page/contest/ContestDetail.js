@@ -22,6 +22,7 @@ export class ContestDetail extends Component {
 
     componentDidMount() {
         this.loadingContest()
+        console.log(this.props)
     }
 
     loadingContest() {
@@ -42,7 +43,7 @@ export class ContestDetail extends Component {
         })
             .then((response) => response.json())
             .then((result) => {
-                if(result.msg !== ""){
+                if(result.httpStatus.msg !== ""){
                     alert(result.httpStatus.msg)
                 }
 
