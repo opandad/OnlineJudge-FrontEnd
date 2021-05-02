@@ -16,6 +16,14 @@ export class ProblemDetail extends Component {
         }
     }
 
+    componentWillReceiveProps(nextProps){
+        this.props = nextProps
+        this.setState({
+            isLoaded: false
+        })
+        this.componentDidMount()
+    }
+
     loadingProlemDetail() {
         fetch(REAREND_HOSTNAME + "/problem/" + this.props.match.params.id, {
             method: 'GET',
@@ -26,10 +34,6 @@ export class ProblemDetail extends Component {
         })
             .then((response) => response.json())
             .then((result) => {
-                //test
-                // console.log("problem detail result")
-                // console.log(result)
-
                 if (result.httpStatus.isError === false) {
                     this.setState({
                         languages: result.languages,
@@ -38,7 +42,7 @@ export class ProblemDetail extends Component {
                     });
                 }
                 if (result.httpStatus.msg !== "") {
-                    alert(result.httpStatus.message)
+                    alert(result.httpStatus.msg)
                 }
             },
                 (error) => {
@@ -52,8 +56,6 @@ export class ProblemDetail extends Component {
     }
 
     loadingContestProblemDetail(){
-        // console.log(this.props)
-
         this.setState({
             languages: this.props.location.state.languages
         })
@@ -67,10 +69,6 @@ export class ProblemDetail extends Component {
         })
             .then((response) => response.json())
             .then((result) => {
-                //test
-                // console.log("problem detail result")
-                // console.log(result.languages)
-
                 if (result.httpStatus.isError === false) {
                     this.setState({
                         problem: result.problem,
@@ -97,17 +95,10 @@ export class ProblemDetail extends Component {
             window.location.href = FRONTEND_HOSTNAME + "/login"
         }
 
-        console.log("problem detail")
-        console.log(this.props)
-
         if(parseInt(this.props.location.state.contestID) === 0){
-            // console.log("no contest")
-
             this.loadingProlemDetail()
         }
         else{
-            // console.log("yes contest")
-
             this.loadingContestProblemDetail()
         }
     }

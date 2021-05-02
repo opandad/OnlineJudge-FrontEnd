@@ -4,12 +4,13 @@ import { REAREND_HOSTNAME } from '../../configs/Rearend';
 import ProblemDetail from '../problem/ProblemDetail';
 import { Switch, Route, Link } from 'react-router-dom';
 import SubmitList from '../submit/SubmitList';
+import Rank from './Rank'
 
 export class ContestDetail extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            content: null,
+            contest: null,
             isLoaded: false,
             error: null,
             problems: null,
@@ -18,11 +19,11 @@ export class ContestDetail extends Component {
         }
 
         this.handleClick = this.handleClick.bind(this);
+        this.problemID2Index = [];
     }
 
     componentDidMount() {
         this.loadingContest()
-        console.log(this.props)
     }
 
     loadingContest() {
@@ -43,13 +44,22 @@ export class ContestDetail extends Component {
         })
             .then((response) => response.json())
             .then((result) => {
-                if(result.httpStatus.msg !== ""){
+                // console.log(result)
+
+                if (result.httpStatus.msg !== "") {
                     alert(result.httpStatus.msg)
                 }
 
-                if (result.httpStatus.isError === false){
+                if (result.httpStatus.isError === false) {
+                    if (result.problems !== null) {
+                        for (let i = 0; i < result.problems.length; i++) {
+                            this.problemID2Index.push(result.problems[i].id)
+                        }
+                    }
+
                     this.setState(
                         {
+                            contest: result.contest,
                             problems: [].concat(result.problems),
                             languages: [].concat(result.languages),
                             contest: result.contest,
@@ -71,28 +81,6 @@ export class ContestDetail extends Component {
     }
 
     render() {
-        let problemID2Index = new Array();
-        if (this.state.problems !== null) {
-            for (let i = 0; i < this.state.problems.length; i++) {
-                problemID2Index.push(this.state.problems[i].id)
-            }
-        }
-        const problemMenuItem = problemID2Index.map((number) =>
-            <Menu.Item key={number}>
-                <Link to={{
-                    pathname: this.state.link + "problem/" + number,
-                    state: {
-                        contestID: parseInt(this.props.match.params.id),
-                        problemID: number,
-                        languages: this.state.languages
-                    }
-                }}>
-                    {number}
-                </Link>
-            </Menu.Item>
-        );
-
-        // console.log(problemID2Index)
         // console.log(this.props)
         // console.log(this.state.link+"problem/:problemID")
 
@@ -110,6 +98,23 @@ export class ContestDetail extends Component {
                     </div>
                 );
             }
+            // console.log(this.problemID2Index)
+            let index = 65
+            const problemMenuItem = this.problemID2Index.map((number) =>
+                <Menu.Item key={number}>
+                    <Link to={{
+                        pathname: this.state.link + "problem/" + String.fromCharCode(index),
+                        state: {
+                            contestID: parseInt(this.props.match.params.id),
+                            problemID: number,
+                            languages: this.state.languages
+                        }
+                    }}>
+                        {String.fromCharCode(index++)}
+                    </Link>
+                </Menu.Item>
+            );
+
             return (
                 <>
                     <Layout.Sider>
@@ -127,7 +132,10 @@ export class ContestDetail extends Component {
                                 <Link to={{
                                     pathname: this.state.link + "rank",
                                     state: {
-                                        contestID: this.props.match.params.id
+                                        contestID: this.props.match.params.id,
+                                        problemsIndex: this.problemID2Index,
+                                        contestStartTime: this.state.contest.startTime,
+                                        contestEndTime: this.state.contest.endTime
                                     }
                                 }}>
                                     排名
@@ -137,7 +145,7 @@ export class ContestDetail extends Component {
                                 <Link to={{
                                     pathname: this.state.link + "submit",
                                     state: {
-                                        contestID: parseInt(this.props.match.params.id)
+                                        contestID: parseInt(this.props.match.params.id),
                                     }
                                 }}>
                                     提交
@@ -147,7 +155,7 @@ export class ContestDetail extends Component {
                     </Layout.Sider>
                     <Switch>
                         <Route path={this.state.link + "problem/:problemID"} component={ProblemDetail} />
-                        <Route path={this.state.link + "rank"} component={null} />
+                        <Route path={this.state.link + "rank"} component={Rank} />
                         <Route path={this.state.link + "submit"} component={SubmitList} />
                     </Switch>
                 </>

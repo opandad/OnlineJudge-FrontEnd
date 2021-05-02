@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Menu } from 'antd'
 import { Link } from 'react-router-dom'
-import { UserAddOutlined, SettingOutlined, LoginOutlined, LogoutOutlined, HomeOutlined, TrophyOutlined,CloudUploadOutlined, QuestionOutlined } from '@ant-design/icons'
+import { UserAddOutlined, SettingOutlined, LoginOutlined, LogoutOutlined, HomeOutlined, TrophyOutlined, CloudUploadOutlined, QuestionOutlined, InfoCircleOutlined } from '@ant-design/icons'
 import { REAREND_HOSTNAME } from '../../configs/Rearend'
 import { FRONTEND_HOSTNAME } from '../../configs/Frontend'
 /*
@@ -73,6 +73,16 @@ export default class TopNavbar extends Component {
                     <>
                         <Menu.SubMenu key="user" title={window.localStorage.getItem('userName')}>
                             <Menu.ItemGroup>
+                                <Menu.Item key="setting" icon={<InfoCircleOutlined />}>
+                                <Link key="userInformation" to={{
+                                        pathname: "/userInformation/" + window.localStorage.getItem("userID"),
+                                        state: {
+                                            userID: window.localStorage.getItem("userID")
+                                        }
+                                    }}>
+                                        个人信息
+                                        </Link>
+                                </Menu.Item>
                                 <Menu.Item icon={<SettingOutlined />}>
                                     设置
                                 </Menu.Item>
@@ -91,9 +101,19 @@ export default class TopNavbar extends Component {
                     <>
                         <Menu.SubMenu key="user" title={window.localStorage.getItem("userName")}>
                             <Menu.ItemGroup>
-                                <Menu.Item key="setting" icon={<SettingOutlined />}>
-                                    设置
+                                <Menu.Item key="setting" icon={<InfoCircleOutlined />}>
+                                    <Link key="userInformation" to={{
+                                        pathname: "/userInformation/" + window.localStorage.getItem("userID"),
+                                        state: {
+                                            userID: window.localStorage.getItem("userID")
+                                        }
+                                    }}>
+                                        个人信息
+                                        </Link>
                                 </Menu.Item>
+                                {/* <Menu.Item key="setting" icon={<SettingOutlined />}>
+                                    设置
+                                </Menu.Item> */}
                                 <Menu.Divider />
                                 <Menu.Item>
                                     <Link key="admin" to="/admin">

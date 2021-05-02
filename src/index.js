@@ -18,6 +18,8 @@ import ContestList from './page/contest/ContestList'
 import SubmitList from './page/submit/SubmitList'
 import ContestDetail from './page/contest/ContestDetail'
 import Admin from './page/admin/Admin'
+import UserInformation from './page/user/UserInformation'
+import UserInfoEdit from './page/user/UserInfoEdit'
 
 class Index extends React.Component {
     constructor(props) {
@@ -134,6 +136,8 @@ class Index extends React.Component {
                                 <Route path="/contest/detail/:id" component={ContestDetail} />
                                 <Route path="/submit/list" component={SubmitList} />
                                 <Route path="/admin" component={Admin} />
+                                <Route path="/userInformation/:id" component={UserInformation} />
+                                <Route path="/userInfoEdit/:id" component={UserInfoEdit} />
                             </Switch>
                         </Layout>
                         <Layout.Footer style={{ textAlign: 'center' }} >

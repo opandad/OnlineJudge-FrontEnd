@@ -350,7 +350,7 @@ export class ProblemEdit extends Component {
                                     <Form.Item wrapperCol={{ span: 4, offset: 10 }}>
                                         <Button type="primary" htmlType="submit">
                                             {showButton}
-                                    </Button>
+                                        </Button>
                                     </Form.Item>
                                 </Col>
                             </Row>

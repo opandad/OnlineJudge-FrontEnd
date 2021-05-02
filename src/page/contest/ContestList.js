@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Layout } from 'antd';
+import { Table, Layout, Space, Button } from 'antd';
 import { REAREND_HOSTNAME } from '../../configs/Rearend';
 import { Link } from 'react-router-dom'
 
@@ -63,30 +63,51 @@ export class ContestList extends Component {
             {
                 title: '竞赛编号',
                 dataIndex: 'id',
-                render: function (id) {
-                    let link = "/contest/detail/" + id
-                    return (
-                        <Link to={{
-                            pathname: link,
-                            state: {
-                                contestID: id
-                            }
-                        }}>{id}</Link>
-                    )
-                }
+                key:"id",
+                // render: function (id) {
+                //     let link = "/contest/detail/" + id
+                //     return (
+                //         <Link to={{
+                //             pathname: link,
+                //             state: {
+                //                 contestID: id
+                //             }
+                //         }}>{id}</Link>
+                //     )
+                // }
             },
             {
                 title: '竞赛名称',
                 dataIndex: 'name',
+                key:"name"
             },
             {
                 title: '竞赛开始时间',
                 dataIndex: 'startTime',
+                key:"startTime"
             },
             {
                 title: '竞赛结束时间',
-                dataIndex: 'startTime',
-            }
+                dataIndex: 'endTime',
+                key:"endTime"
+            },
+            {
+                title: '行为',
+                key:"action",
+                render: (text) => {
+                    // console.log(text)
+                    let link = "/contest/detail/" + text.id
+                    return (
+                        <Space size="middle">
+                            <Button type="primary">
+                                <Link to={{
+                                    pathname: link,
+                                }}>进入比赛</Link>
+                            </Button>
+                        </Space>
+                    )
+                },
+            },
         ];
 
 

@@ -3,7 +3,8 @@ import { Switch, Route, Link } from 'react-router-dom'
 import { FRONTEND_HOSTNAME } from '../../configs/Frontend'
 import { Layout, Menu } from 'antd'
 import ProblemsManage from './problem/ProblemsManage'
-import AccountsManage from './user/AccountsManage'
+import UsersManage from './user/UsersManage'
+import TeamsManage from './user/TeamsManage'
 import ProblemEdit from './problem/ProblemEdit'
 import {UserOutlined, QuestionOutlined, TrophyOutlined} from '@ant-design/icons'
 import ProblemDelete from './problem/ProblemDelete'
@@ -49,7 +50,8 @@ export class Admin extends Component {
                         <Route path="/admin/problem/delete" component={ProblemDelete} />
                         <Route path="/admin/contest/list" component={ContestsManage} />
                         <Route path="/admin/contest/edit" component={ContestsEdit} />
-                        <Route path="/admin/user" component={AccountsManage} />
+                        <Route path="/admin/user" component={UsersManage} />
+                        <Route path="/admin/team" component={TeamsManage} />
                     </Switch>
                 </Layout.Content>
             </>
