@@ -97,7 +97,7 @@ export class RegistrationFormByEmail extends Component {
                     window.localStorage.setItem('userID', result.user.id)
                     window.localStorage.setItem('password', result.user.password)
                     window.localStorage.setItem('authority', result.user.authority)
-
+                    window.localStorage.setItem('userName', result.user.userName);
                     window.location.href=FRONTEND_HOSTNAME
                 }
             },

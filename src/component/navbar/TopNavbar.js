@@ -68,6 +68,9 @@ export default class TopNavbar extends Component {
 
     userStatusMenu(isLoggedIn, authority) {
         if (isLoggedIn === true) {
+            // console.log(window.localStorage.getItem('authority'))
+            // console.log(authority)
+
             if (authority === "user") {
                 return (
                     <>
@@ -83,9 +86,9 @@ export default class TopNavbar extends Component {
                                         个人信息
                                         </Link>
                                 </Menu.Item>
-                                <Menu.Item icon={<SettingOutlined />}>
+                                {/* <Menu.Item icon={<SettingOutlined />}>
                                     设置
-                                </Menu.Item>
+                                </Menu.Item> */}
                                 <Menu.Divider />
                                 <Menu.Item key="logout" icon={<LogoutOutlined />} onClick={this.logout}>
                                     退出

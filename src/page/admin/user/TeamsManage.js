@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { REAREND_HOSTNAME } from '../../../configs/Rearend';
 import { InboxOutlined, UploadOutlined } from '@ant-design/icons';
 
-export class AccountsManage extends Component {
+export class TeamsManage extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -251,4 +251,4 @@ export class AccountsManage extends Component {
     }
 }
 
-export default AccountsManage
+export default TeamsManage

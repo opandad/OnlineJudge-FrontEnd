@@ -131,6 +131,8 @@ class Index extends React.Component {
                                 <Route path="/contest/list" component={ContestList}/>
                                 <Route path="/submit/list" component={SubmitList}/>
                                 <Route path="/login" component={Login} />
+                                <Route path="/login/email" component={Login} />
+                                <Route path="/login/team" component={Login} />
                                 <Route path="/regist" component={Resign} />
                                 <Route path="/problem/detail/:id" component={ProblemDetail} />
                                 <Route path="/contest/detail/:id" component={ContestDetail} />

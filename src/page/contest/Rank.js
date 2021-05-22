@@ -29,7 +29,7 @@ export class Rank extends Component {
         })
             .then((response) => response.json())
             .then((result) => {
-                // console.log(result)
+                console.log(result)
 
                 if (result.httpStatus.isError === false) {
                     // console.log(this.props.location.state)
@@ -57,10 +57,13 @@ export class Rank extends Component {
                         }
                     }
 
-                    // // console.log("修改前",this.rank)
+                    // console.log("修改前",this.rank)
 
                     for (let i = 0; i < result.submits.length; i++) {
                         let ABCIndex = this.problemID2Index[result.submits[i].problemID]
+
+                        //console.log(this.problemID2Index[result.submits[i].problemID])
+
                         if (result.submits[i].isError === false && result.submits[i].submitState === "Accepted" && this.rank[result.submits[i].userID]["problems"][ABCIndex]["isError"] === true) {
                             this.rank[result.submits[i].userID]["problems"][ABCIndex].acTime = moment(result.submits[i].submitTime).diff(moment(this.props.location.state.contestStartTime), "second")
                             this.rank[result.submits[i].userID]["problems"][ABCIndex].isError = false

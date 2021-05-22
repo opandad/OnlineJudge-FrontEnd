@@ -3,7 +3,7 @@ import { Table, Layout, Space, Button } from 'antd';
 import { Link } from 'react-router-dom'
 import { REAREND_HOSTNAME } from '../../../configs/Rearend';
 
-export class UsersManage extends Component {
+export class EmailsManage extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -15,19 +15,10 @@ export class UsersManage extends Component {
             total: 0
         }
         this.onChange = this.onChange.bind(this);
-        this.cancelAdmin = this.cancelAdmin.bind(this);
-        this.setAdmin = this.setAdmin.bind(this);
-    }
-
-    cancelAdmin(id){
-        console.log("cancel admin"+ id)
-    }
-    setAdmin(id){
-        console.log("set admin" + id)
     }
 
     LoadingUsers(current, pageSize) {
-        fetch(REAREND_HOSTNAME + "/admin/user/list?pageIndex=" + current + "&pageSize=" + pageSize, {
+        fetch(REAREND_HOSTNAME + "/admin/email/list?pageIndex=" + current + "&pageSize=" + pageSize, {
             method: 'POST',
             headers: {
                 'Accept': '/application/json',
@@ -43,11 +34,11 @@ export class UsersManage extends Component {
         })
             .then((response) => response.json())
             .then((result) => {
-                // console.log(result)
+                console.log(result)
 
                 if (result.httpStatus.isError == false){
                     this.setState({
-                        usersList: result.users,
+                        usersList: result.emails,
                         current: current,
                         pageSize: pageSize,
                         total: result.total,
@@ -80,46 +71,28 @@ export class UsersManage extends Component {
         const { isLoaded, error } = this.state;
         const columns = [
             {
-                title: '用户编号',
-                dataIndex: 'id',
+                title: '邮箱账号',
+                dataIndex: 'email',
             },
             {
-                title: '用户昵称',
-                dataIndex: 'name',
-            },
-            {
-                title: '是否为管理员',
-                dataIndex: 'authority',
-                render: function (text) {
-                    // console.log(text)
-                    if(text === 'admin'){
-                        return(
-                            <p>是</p>
-                        )
-                    }
-                    else{
-                        return(
-                            <p>否</p>
-                        )
-                    }
-                },
-            },
+                title: '用户ID',
+                dataIndex: 'userID',
+            }
             // {
-            //     title: '设置管理员',
-            //     render: function (text, record) {
-            //         console.log(record.authority)
-                    
-            //         if(record.authority === 'admin'){
-            //             return(
-            //                 <Button type="primary"><Link to="">取消管理员</Link></Button>
-            //             )
-            //         }
-            //         else{
-            //             return(
-            //                 <Button type="primary"><Link to="">设置管理员</Link></Button>
-            //             )
-            //         }
-            //     },
+            //     title: '行为',
+            //     key: 'action',
+            //     render: (text, record) => (
+            //         <Space size="middle">
+            //             <Button type="primary">
+            //                 <Link to={{
+            //                     pathname: "/admin/problem/edit/" + record.id,
+            //                     state: {
+            //                         userID: record.id
+            //                     }
+            //                 }}>编辑</Link>
+            //             </Button>
+            //         </Space>
+            //     ),
             // },
         ];
 
@@ -156,4 +129,4 @@ export class UsersManage extends Component {
     }
 }
 
-export default UsersManage
+export default EmailsManage

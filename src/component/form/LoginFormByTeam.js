@@ -22,7 +22,7 @@ import 'antd/dist/antd.less'
     
     | NavigationBar     |    no    |     no    |
 */
-export default class LoginFormByEmail extends Component {
+export default class LoginFormByTeam extends Component {
     layout = {
         labelCol: { span: 8 },
         wrapperCol: { span: 16 },
@@ -31,7 +31,7 @@ export default class LoginFormByEmail extends Component {
         wrapperCol: { offset: 8, span: 16 },
     };
     onFinish = (values) => {
-        fetch(REAREND_HOSTNAME + "/account/login/email", {
+        fetch(REAREND_HOSTNAME + "/account/login/team", {
             method: 'POST',
             headers: {
                 'Accept': '/application/json',
@@ -80,11 +80,11 @@ export default class LoginFormByEmail extends Component {
                     onFinish={this.onFinish}
                     onFinishFailed={this.onFinishFailed}
                 >
-                    <Form.Item label="邮箱" name="account"
+                    <Form.Item label="team账号" name="account"
                         rules={[
                             {
                                 required: true,
-                                message: '请输入你的登录邮箱！',
+                                message: '请输入你的team账号！',
                             },
                         ]}
                     >
